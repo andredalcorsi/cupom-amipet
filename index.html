@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Banner Promocional Amipet — A4 Paisagem</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- BARRA DE CONTROLES -->
+  <div id="barra">
+    <div class="campo">
+      <label for="in-produto">Produto</label>
+      <input type="text" id="in-produto" value="Ração Premiar Cães Adultos Mini Bits 20kg">
+    </div>
+
+    <div class="campo">
+      <label for="in-descricao">Descrição</label>
+      <input type="text" id="in-descricao" value="Ração seca completa para cães adultos de porte pequeno, com crocante mini bits que facilita a mastigação. Embalagem de 20 kg.">
+    </div>
+
+    <div class="campo">
+      <label for="in-preco">Preço (R$)</label>
+      <input type="text" id="in-preco" value="339,90">
+    </div>
+
+    <div class="campo">
+      <label>Logo</label>
+      <button type="button" id="btn-logo">Carregar logo</button>
+      <input type="file" id="in-logo" accept="image/*" style="display:none">
+    </div>
+
+    <button type="button" id="btn-limpar-logo">Restaurar logo</button>
+    <button type="button" id="btn-editar">Ativar edição</button>
+    <button type="button" id="btn-imprimir">Imprimir / Salvar PDF</button>
+  </div>
+
+  <!-- PALCO DA IMPRESSÃO -->
+  <div id="palco">
+    <div id="folha">
+      
+      <!-- COLUNA DA ESQUERDA (LOGO, TÍTULOS, PRODUTO E RODAPÉ) -->
+      <div class="col-esq">
+        <div class="logo-area">
+          <div id="logo-wordmark">
+            <span class="wordmark">AMIPET</span>
+            <div class="traco"></div>
+            <span class="petshop">Pet Shop</span>
+          </div>
+          <img id="logo-img" src="LOGOS-ASSINATURAS-VARIADOS/Principal (2).png" alt="Logo Amipet" style="display: block;">
+        </div>
+
+        <div class="headline">
+          <h1 class="edit">OFERTAS DA LOJA</h1>
+          <div class="sub edit">para o seu pet</div>
+          <p class="apoio edit">Descontos progressivos em toda a loja.</p>
+        </div>
+
+        <div class="bloco-produto">
+          <h2 id="out-produto" class="edit">Ração Premiar Cães Adultos Mini Bits 20kg</h2>
+          <p id="out-descricao" class="edit">Ração seca completa para cães adultos de porte pequeno, com crocante mini bits que facilita a mastigação. Embalagem de 20 kg.</p>
+          
+          <div class="linha-preco">
+            <span id="out-preco">R$ 339,90</span>
+            <span class="selo edit">Oferta</span>
+          </div>
+          <div id="out-melhor">Com 15% de desconto: R$ 288,91</div>
+        </div>
+
+        <div class="rodape">
+          <div><span class="rot">Endereço</span><span class="edit">Rua / Avenida, número — Bairro</span></div>
+          <div><span class="rot">WhatsApp</span><span class="edit">(00) 00000-0000</span></div>
+          <div><span class="rot">Instagram</span><span class="edit">@amipet</span></div>
+        </div>
+      </div>
+
+      <!-- COLUNA DA DIREITA (CARD DE CONDIÇÕES DE DESCONTO) -->
+      <div class="col-dir">
+        <div class="card">
+          <h3 class="edit">Condições de desconto</h3>
+          <p class="card-sub edit">Calculado sobre o preço informado</p>
+
+          <!-- Destaque do Melhor Preço no Topo do Card -->
+          <div class="destaque">
+            <div class="rot-melhor edit">Melhor preço para este item</div>
+            <div id="out-destaque">—</div>
+          </div>
+
+          <!-- Faixa 10% -->
+          <div class="faixa">
+            <div class="pct">10%</div>
+            <div class="faixa-info">
+              <div class="cond edit">Em qualquer compra (sem mínimo)</div>
+              <div class="valores">
+                <span class="desc" id="desc-10">Desconto: R$ —</span>
+                <span class="final" id="final-10">Final: R$ —</span>
+              </div>
+              <span class="tag" id="tag-10"></span>
+            </div>
+          </div>
+
+          <!-- Faixa 15% -->
+          <div class="faixa">
+            <div class="pct">15%</div>
+            <div class="faixa-info">
+              <div class="cond edit">Em compras acima de R$ 300</div>
+              <div class="valores">
+                <span class="desc" id="desc-15">Desconto: R$ —</span>
+                <span class="final" id="final-15">Final: R$ —</span>
+              </div>
+              <span class="tag" id="tag-15"></span>
+            </div>
+          </div>
+
+          <!-- Faixa 20% -->
+          <div class="faixa">
+            <div class="pct">20%</div>
+            <div class="faixa-info">
+              <div class="cond edit">Em compras acima de R$ 1.000</div>
+              <div class="valores">
+                <span class="desc" id="desc-20">Desconto: R$ —</span>
+                <span class="final" id="final-20">Final: R$ —</span>
+              </div>
+              <span class="tag" id="tag-20"></span>
+            </div>
+          </div>
+
+          <div class="barra-final edit">Válido para toda a loja</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

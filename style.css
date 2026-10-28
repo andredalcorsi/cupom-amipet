@@ -1,0 +1,525 @@
+/* ============================================================
+   CONFIGURAÇÃO DAS FONTES LOCAIS (PASTA FONTES/)
+   ============================================================ */
+@font-face {
+  font-family: 'JandaManateeSolid';
+  src: url('Fontes/JandaManateeSolid.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Aller';
+  src: url('Fontes/Aller.ttf') format('truetype');
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'Aller';
+  src: url('Fontes/Aller_Rg.ttf') format('truetype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Aller';
+  src: url('Fontes/Aller_Lt.ttf') format('truetype');
+  font-weight: 300;
+}
+
+/* ============================================================
+   BANNER AMIPET — FERRAMENTA DE IMPRESSÃO (A4 PAISAGEM)
+   ============================================================ */
+
+:root {
+  --verde: #428391;
+  --amarelo: #ecc625;
+  --azul: #236fa1;
+  --fundo: #ffffff;
+  --creme: #F4F8F9;
+  --carvao: #1E2A2E;
+  --cinza: #6B7A7E;
+  --linha: #E2E8EC;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Aller', sans-serif;
+  background: #E7E7E4;
+  color: var(--carvao);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* ---------- BARRA DE CONTROLES ---------- */
+#barra {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 14px;
+  padding: 12px 18px;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(30, 42, 46, .12);
+}
+
+#barra .campo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+#barra label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--cinza);
+}
+
+#barra input[type=text] {
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--carvao);
+  padding: 7px 10px;
+  border: 1px solid #D5D5D0;
+  border-radius: 6px;
+  background: #fff;
+  outline: none;
+}
+
+#barra input[type=text]:focus {
+  border-color: var(--azul);
+  box-shadow: 0 0 0 3px rgba(35, 111, 161, .12);
+}
+
+#in-produto {
+  width: 300px;
+}
+
+#in-descricao {
+  width: 380px;
+}
+
+#in-preco {
+  width: 110px;
+  font-weight: 700;
+  color: var(--azul);
+}
+
+#barra button {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 9px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid #D5D5D0;
+  background: #fff;
+  color: var(--carvao);
+  transition: .15s;
+}
+
+#barra button:hover {
+  background: #F4F4F1;
+}
+
+#btn-imprimir {
+  background: var(--azul);
+  border-color: var(--azul);
+  color: #fff;
+}
+
+#btn-imprimir:hover {
+  background: #1D5C87;
+}
+
+#btn-limpar-logo {
+  font-weight: 500;
+  color: var(--cinza);
+}
+
+/* ---------- PALCO / FOLHA ---------- */
+#palco {
+  padding: 110px 20px 60px;
+  display: flex;
+  justify-content: center;
+}
+
+#folha {
+  width: 297mm;
+  height: 210mm;
+  padding: 12mm 14mm;
+  background: var(--fundo);
+  display: flex;
+  gap: 14mm;
+  overflow: hidden;
+  box-shadow: 0 10px 34px rgba(30, 42, 46, .16);
+}
+
+/* ---------- DISTRIBUIÇÃO DAS COLUNAS ---------- */
+.col-esq {
+  flex: 0 0 52%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.col-dir {
+  flex: 1;
+  display: flex;
+}
+
+/* ---------- LOGO AUMENTADA ---------- */
+.logo-area {
+  display: flex;
+  align-items: flex-start;
+}
+
+#logo-wordmark {
+  display: none;
+  flex-direction: column;
+}
+
+#logo-img {
+  display: block;
+  max-height: 24mm; /* Logo bem maior e destacada */
+  max-width: 85mm;
+  object-fit: contain;
+  object-position: left top;
+}
+
+/* ---------- HEADLINE ---------- */
+.headline {
+  margin-top: 2mm;
+}
+
+.headline h1 {
+  margin: 0;
+  font-family: 'JandaManateeSolid', sans-serif;
+  font-size: 46px;
+  font-weight: normal;
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  color: var(--verde);
+}
+
+.headline .sub {
+  margin: 2px 0 0;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--azul);
+}
+
+.apoio {
+  margin: 4px 0 0;
+  font-size: 13.5px;
+  color: var(--cinza);
+}
+
+/* ---------- BLOCO DO PRODUTO ---------- */
+.bloco-produto {
+  margin-top: 2mm;
+}
+
+#out-produto {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--carvao);
+  max-width: 95%;
+}
+
+#out-descricao {
+  margin: 4px 0 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: rgba(30, 42, 46, .85);
+  max-width: 55ch;
+}
+
+.linha-preco {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#out-preco {
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--azul);
+}
+
+.selo {
+  background: var(--amarelo);
+  color: var(--carvao);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  padding: 5px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+#out-melhor {
+  margin: 4px 0 0;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--verde);
+}
+
+/* ---------- RODAPÉ ---------- */
+.rodape {
+  margin-top: 2mm;
+  padding-top: 6px;
+  border-top: 1px solid var(--linha);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 11px;
+  color: var(--cinza);
+}
+
+.rodape .rot {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--verde);
+  margin-right: 4px;
+}
+
+/* ---------- CARD DE CONDIÇÕES (DIREITA COM FONTES GRANDES) ---------- */
+.card {
+  width: 100%;
+  height: 100%;
+  padding: 20px 24px;
+  background: #F8F9FA;
+  border-radius: 12px;
+  border: 1px solid var(--linha);
+  box-shadow: 0 6px 20px rgba(30, 42, 46, .05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.card h3 {
+  margin: 0;
+  font-size: 16px; /* Aumentado */
+  font-weight: 800;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  color: var(--verde);
+}
+
+.card-sub {
+  margin: 2px 0 10px 0;
+  font-size: 13px; /* Aumentado */
+  color: var(--cinza);
+}
+
+/* DESTAQUE NO TOPO DO CARD (F größer) */
+.destaque {
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: rgba(66, 131, 145, .08);
+  margin-bottom: 6px;
+}
+
+.rot-melhor {
+  font-size: 12.5px; /* Aumentado */
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--cinza);
+}
+
+#out-destaque {
+  margin-top: 3px;
+  font-size: 32px; /* Bem maior para destaque máximo */
+  font-weight: 800;
+  color: var(--azul);
+}
+
+.faixa {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--linha);
+}
+
+.faixa:last-of-type {
+  border-bottom: none;
+}
+
+.pct {
+  font-size: 38px; /* Porcentagens bem maiores */
+  font-weight: 800;
+  line-height: 1;
+  color: var(--verde);
+  min-width: 75px;
+}
+
+.faixa-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cond {
+  font-size: 15px; /* Aumentado */
+  font-weight: 600;
+  color: var(--carvao);
+}
+
+.valores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+}
+
+.desc {
+  font-size: 14px; /* Aumentado */
+  color: rgba(30, 42, 46, .85);
+}
+
+.final {
+  font-size: 14px; /* Aumentado */
+  font-weight: 700;
+  color: var(--carvao);
+}
+
+.final.aplicavel {
+  color: var(--azul);
+}
+
+.tag {
+  display: inline-block;
+  margin-top: 3px;
+  font-size: 12px; /* Aumentado */
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.tag.positivo {
+  color: var(--verde);
+  background: rgba(66, 131, 145, .10);
+}
+
+.tag.alerta {
+  color: var(--azul);
+  background: rgba(35, 111, 161, .10);
+}
+
+.barra-final {
+  margin-top: 8px;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--azul);
+  color: #fff;
+  font-size: 14.5px; /* Aumentado */
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: .04em;
+}
+
+.edit[contenteditable="true"] {
+  outline: 1px dashed rgba(35, 111, 161, .5);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* ---------- RESPONSIVIDADE PARA MOBILE ---------- */
+@media screen and (max-width: 1024px) {
+  #barra {
+    position: relative;
+    width: 100%;
+  }
+
+  #palco {
+    padding: 20px 10px 40px;
+  }
+
+  #folha {
+    width: 100%;
+    height: auto;
+    min-height: auto;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+    overflow: visible;
+  }
+
+  .col-esq {
+    flex: none;
+    width: 100%;
+  }
+
+  .col-dir {
+    width: 100%;
+  }
+
+  .card {
+    height: auto;
+  }
+}
+
+/* ---------- IMPRESSÃO ---------- */
+@page {
+  size: A4 landscape;
+  margin: 0;
+}
+
+@media print {
+  #barra {
+    display: none !important;
+  }
+
+  #palco {
+    padding: 0;
+    display: block;
+    background: #fff;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  #folha {
+    width: 297mm;
+    height: 210mm;
+    margin: 0;
+    box-shadow: none;
+    border: none;
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  .edit[contenteditable="true"] {
+    outline: none !important;
+  }
+
+  .card,
+  .selo,
+  .barra-final,
+  .destaque,
+  .tag {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
