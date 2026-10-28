@@ -16,7 +16,7 @@ const outPreco = document.getElementById('out-preco');
 const outMelhor = document.getElementById('out-melhor');
 const outDestaque = document.getElementById('out-destaque');
 
-/* Converte "1.234,56", "1234,56" ou "1234.56" em número */
+/* Converte "1.234,56" em número */
 function parsePreco(valor) {
   if (!valor) return NaN;
   let s = String(valor).replace(/[^\d,.-]/g, '');
@@ -25,6 +25,56 @@ function parsePreco(valor) {
   }
   const n = parseFloat(s);
   return (isNaN(n) || n <= 0) ? NaN : n;
+}
+
+/* ============ LOCALSTORAGE (PERSISTÊNCIA) ============ */
+function salvarDados() {
+  // Salva inputs da barra
+  localStorage.setItem('amipet_produto', inProduto.value);
+  localStorage.setItem('amipet_descricao', inDescricao.value);
+  localStorage.setItem('amipet_preco', inPreco.value);
+
+  // Salva textos editáveis da página (usando o data-key)
+  document.querySelectorAll('.edit').forEach(el => {
+    const key = el.getAttribute('data-key');
+    if (key) {
+      localStorage.setItem('amipet_text_' + key, el.innerHTML);
+    }
+  });
+
+  // Salva imagem da logo se houver carregamento customizado
+  const logoImg = document.getElementById('logo-img');
+  if (logoImg.src && logoImg.src.startsWith('data:image')) {
+    localStorage.setItem('amipet_logo', logoImg.src);
+  }
+}
+
+function carregarDados() {
+  if (localStorage.getItem('amipet_produto')) {
+    inProduto.value = localStorage.getItem('amipet_produto');
+    outProduto.textContent = inProduto.value;
+  }
+  if (localStorage.getItem('amipet_descricao')) {
+    inDescricao.value = localStorage.getItem('amipet_descricao');
+    outDescricao.textContent = inDescricao.value;
+  }
+  if (localStorage.getItem('amipet_preco')) {
+    inPreco.value = localStorage.getItem('amipet_preco');
+  }
+
+  // Carrega textos editáveis salvos
+  document.querySelectorAll('.edit').forEach(el => {
+    const key = el.getAttribute('data-key');
+    if (key && localStorage.getItem('amipet_text_' + key)) {
+      el.innerHTML = localStorage.getItem('amipet_text_' + key);
+    }
+  });
+
+  // Carrega logo customizada salva
+  const salvouLogo = localStorage.getItem('amipet_logo');
+  if (salvouLogo) {
+    document.getElementById('logo-img').src = salvouLogo;
+  }
 }
 
 /* ============ CÁLCULO PRINCIPAL ============ */
@@ -80,18 +130,27 @@ function calcular() {
     outMelhor.textContent = 'Informe o preço para calcular';
     outDestaque.textContent = '—';
   }
+
+  salvarDados();
 }
 
-/* ============ ATUALIZAÇÃO EM TEMPO REAL ============ */
+/* ============ EVENTOS DE INPUT ============ */
 inProduto.addEventListener('input', function () {
   outProduto.textContent = inProduto.value;
+  salvarDados();
 });
 
 inDescricao.addEventListener('input', function () {
   outDescricao.textContent = inDescricao.value;
+  salvarDados();
 });
 
 inPreco.addEventListener('input', calcular);
+
+// Salva sempre que o usuário altera algum texto editável na tela
+document.querySelectorAll('.edit').forEach(el => {
+  el.addEventListener('input', salvarDados);
+});
 
 /* ============ LOGO ============ */
 const logoImg = document.getElementById('logo-img');
@@ -107,13 +166,23 @@ inLogo.addEventListener('change', function () {
   const leitor = new FileReader();
   leitor.onload = function (e) {
     logoImg.src = e.target.result;
+    salvarDados();
   };
   leitor.readAsDataURL(arquivo);
 });
 
 document.getElementById('btn-limpar-logo').addEventListener('click', function () {
   logoImg.src = "LOGOS-ASSINATURAS-VARIADOS/Principal (2).png";
+  localStorage.removeItem('amipet_logo');
   inLogo.value = '';
+});
+
+/* ============ BOTÃO RESETAR / LIMPAR TUDO ============ */
+document.getElementById('btn-reset').addEventListener('click', function () {
+  if (confirm('Deseja realmente limpar todas as alterações e restaurar os padrões?')) {
+    localStorage.clear();
+    location.reload();
+  }
 });
 
 /* ============ EDIÇÃO DOS TEXTOS FIXOS ============ */
@@ -127,6 +196,7 @@ btnEditar.addEventListener('click', function () {
       el.setAttribute('contenteditable', 'true');
     } else {
       el.removeAttribute('contenteditable');
+      salvarDados();
     }
   });
   btnEditar.textContent = editando ? 'Desativar edição' : 'Ativar edição';
@@ -139,9 +209,6 @@ document.getElementById('btn-imprimir').addEventListener('click', function () {
 
 /* ============ INICIALIZAÇÃO ============ */
 document.addEventListener('DOMContentLoaded', function () {
-  outProduto.textContent = inProduto.value;
-  outDescricao.textContent = inDescricao.value;
+  carregarDados();
   calcular();
 });
-
-calcular();

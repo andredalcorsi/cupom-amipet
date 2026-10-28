@@ -12,12 +12,12 @@
   <div id="barra">
     <div class="campo">
       <label for="in-produto">Produto</label>
-      <input type="text" id="in-produto" value="NOME DO PRODUTO">
+      <input type="text" id="in-produto" value="Insira o nome do produto aqui...">
     </div>
 
     <div class="campo">
       <label for="in-descricao">Descrição</label>
-      <input type="text" id="in-descricao" value="Insira a descrição do produto aqui!">
+      <input type="text" id="in-descricao" value="Insira a descrição">
     </div>
 
     <div class="campo">
@@ -34,56 +34,51 @@
     <button type="button" id="btn-limpar-logo">Restaurar logo</button>
     <button type="button" id="btn-editar">Ativar edição</button>
     <button type="button" id="btn-imprimir">Imprimir / Salvar PDF</button>
+    <button type="button" id="btn-reset" style="background: #d9534f; color: #fff; border-color: #d9534f;">Apagar informações</button>
   </div>
 
   <!-- PALCO DA IMPRESSÃO -->
   <div id="palco">
     <div id="folha">
       
-      <!-- COLUNA DA ESQUERDA (LOGO, TÍTULOS, PRODUTO E RODAPÉ) -->
+      <!-- COLUNA DA ESQUERDA -->
       <div class="col-esq">
         <div class="logo-area">
-          <div id="logo-wordmark">
-            <span class="wordmark">AMIPET</span>
-            <div class="traco"></div>
-            <span class="petshop">Pet Shop</span>
-          </div>
           <img id="logo-img" src="LOGOS-ASSINATURAS-VARIADOS/Principal (2).png" alt="Logo Amipet" style="display: block;">
         </div>
 
         <div class="headline">
-          <h1 class="edit">OFERTAS DA LOJA</h1>
-          <div class="sub edit">para o seu pet</div>
-          <p class="apoio edit">Descontos progressivos em toda a loja.</p>
+          <h1 class="edit" data-key="h1-titulo">OFERTAS DA LOJA</h1>
+          <div class="sub edit" data-key="sub-titulo">para o seu pet</div>
+          <p class="apoio edit" data-key="txt-apoio">Descontos progressivos em toda a loja.</p>
         </div>
 
         <div class="bloco-produto">
-          <h2 id="out-produto" class="edit">Ração Premiar Cães Adultos Mini Bits 20kg</h2>
-          <p id="out-descricao" class="edit">Ração seca completa para cães adultos de porte pequeno, com crocante mini bits que facilita a mastigação. Embalagem de 20 kg.</p>
+          <h2 id="out-produto" class="edit" data-key="out-produto">Nome do Produto</h2>
+          <p id="out-descricao" class="edit" data-key="out-descricao">Descrição do Produto</p>
           
           <div class="linha-preco">
-            <span id="out-preco">R$ 339,90</span>
-            <span class="selo edit">Oferta</span>
+            <span id="out-preco">R$ 0,00</span>
+            <span class="selo edit" data-key="txt-selo">Oferta</span>
           </div>
-          <div id="out-melhor">Com 15% de desconto: R$ 288,91</div>
+          <div id="out-melhor">Informe o preço para calcular</div>
         </div>
 
         <div class="rodape">
-          <div><span class="rot">Endereço</span><span class="edit">Rua / Avenida, número — Bairro</span></div>
-          <div><span class="rot">WhatsApp</span><span class="edit">(00) 00000-0000</span></div>
-          <div><span class="rot">Instagram</span><span class="edit">@amipet</span></div>
+          <div><span class="rot">Endereço</span><span class="edit" data-key="end-loja">Rua / Avenida, número — Bairro</span></div>
+          <div><span class="rot">WhatsApp</span><span class="edit" data-key="whats-loja">(00) 00000-0000</span></div>
+          <div><span class="rot">Instagram</span><span class="edit" data-key="insta-loja">@amipet</span></div>
         </div>
       </div>
 
-      <!-- COLUNA DA DIREITA (CARD DE CONDIÇÕES DE DESCONTO) -->
+      <!-- COLUNA DA DIREITA -->
       <div class="col-dir">
         <div class="card">
-          <h3 class="edit">Condições de desconto</h3>
-          <p class="card-sub edit">Calculado sobre o preço informado</p>
+          <h3 class="edit" data-key="card-titulo">Condições de desconto</h3>
+          <p class="card-sub edit" data-key="card-sub">Calculado sobre o preço informado</p>
 
-          <!-- Destaque do Melhor Preço no Topo do Card -->
           <div class="destaque">
-            <div class="rot-melhor edit">Melhor preço para este item</div>
+            <div class="rot-melhor edit" data-key="rot-melhor">Melhor preço para este item</div>
             <div id="out-destaque">—</div>
           </div>
 
@@ -91,7 +86,7 @@
           <div class="faixa">
             <div class="pct">10%</div>
             <div class="faixa-info">
-              <div class="cond edit">Em qualquer compra (sem mínimo)</div>
+              <div class="cond edit" data-key="cond-10">Em qualquer compra (sem mínimo)</div>
               <div class="valores">
                 <span class="desc" id="desc-10">Desconto: R$ —</span>
                 <span class="final" id="final-10">Final: R$ —</span>
@@ -104,7 +99,7 @@
           <div class="faixa">
             <div class="pct">15%</div>
             <div class="faixa-info">
-              <div class="cond edit">Em compras acima de R$ 300</div>
+              <div class="cond edit" data-key="cond-15">Em compras acima de R$ 300</div>
               <div class="valores">
                 <span class="desc" id="desc-15">Desconto: R$ —</span>
                 <span class="final" id="final-15">Final: R$ —</span>
@@ -117,7 +112,7 @@
           <div class="faixa">
             <div class="pct">20%</div>
             <div class="faixa-info">
-              <div class="cond edit">Em compras acima de R$ 1.000</div>
+              <div class="cond edit" data-key="cond-20">Em compras acima de R$ 1.000</div>
               <div class="valores">
                 <span class="desc" id="desc-20">Desconto: R$ —</span>
                 <span class="final" id="final-20">Final: R$ —</span>
@@ -126,7 +121,7 @@
             </div>
           </div>
 
-          <div class="barra-final edit">Válido para toda a loja</div>
+          <div class="barra-final edit" data-key="barra-final">Válido para toda a loja</div>
         </div>
       </div>
 
