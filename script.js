@@ -359,8 +359,8 @@ if (btnReset) {
       localStorage.removeItem('amipet_out_descricao');
       localStorage.removeItem('amipet_preco_atual');
       
-      outProduto.textContent = "Informe o nome do produto";
-      outDescricao.textContent = "Informe o código do produto";
+      outProduto.textContent = "Nome do produto";
+      outDescricao.textContent = "Código do produto";
       precoAtual = 0;
       calcular();
       
