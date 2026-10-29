@@ -20,6 +20,16 @@ let precoAtual = 0;
 let baseProdutos = {}; // Dicionário por código normalizado
 let listaProdutosArray = []; // Array para busca por nome
 
+/* Normalização avançada: remove acentos, cedilhas, caracteres especiais e converte para minúsculas */
+function normalizarTexto(str) {
+  if (!str) return '';
+  return String(str)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // Remove acentos
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, "");    // Remove símbolos especiais (mantém apenas letras, números e espaços)
+}
+
 /* Normalização de código de barras: remove zeros à esquerda e traços */
 function normalizarCodigo(codigo) {
   if (!codigo) return '';
@@ -82,6 +92,7 @@ function processarConteudoCsv(conteudo) {
           codigoOriginal: codigoBruto,
           codigoNorm: codigoNormalizado,
           nome: descricao,
+          nomeNorm: normalizarTexto(descricao), // Versão limpa para busca instantânea
           preco: venda
         };
         baseProdutos[codigoNormalizado] = item;
@@ -134,7 +145,7 @@ if (btnSubstituir) {
   });
 }
 
-/* ============ SELECIONAR PRODUTO (FUNÇÃO COMUM) ============ */
+/* ============ SELECIONAR PRODUTO ============ */
 function carregarProdutoNaTela(prod) {
   outProduto.textContent = prod.nome;
   outDescricao.textContent = "Cód: " + prod.codigoOriginal;
@@ -145,7 +156,7 @@ function carregarProdutoNaTela(prod) {
   salvarDadosTela();
 }
 
-/* ============ BIPAGEM VIA CÓDIGO DE BARRAS (AGORA DISPARA COM ENTER) ============ */
+/* ============ BIPAGEM VIA CÓDIGO DE BARRAS (ENTER) ============ */
 if (inCodigo) {
   inCodigo.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') {
@@ -164,19 +175,39 @@ if (inCodigo) {
   });
 }
 
-/* ============ PESQUISA POR NOME / DESCRIÇÃO COM SUGESTÕES ============ */
+/* ============ PESQUISA POR NOME INTELIGENTE E SEM RESTRIÇÕES ============ */
+function normalizarTexto(str) {
+  if (!str) return '';
+  return String(str)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // Remove acentos
+    .toLowerCase(); // Mantém espaços, números, letras e símbolos para não quebrar buscas parciais
+}
+
 if (inBusca && listaSugestoes) {
   inBusca.addEventListener('input', function() {
-    let termo = inBusca.value.trim().toLowerCase();
+    let termoBruto = inBusca.value.trim();
     listaSugestoes.innerHTML = '';
 
-    if (termo.length < 2) {
+    // Basta 1 único caractere para já começar a listar os produtos
+    if (termoBruto.length < 1) {
       listaSugestoes.style.display = 'none';
       return;
     }
 
-    // Filtra produtos contendo o termo digitado (máximo 15 sugestões para performance)
-    let resultados = listaProdutosArray.filter(p => p.nome.toLowerCase().includes(termo)).slice(0, 15);
+    // Normaliza o termo digitado
+    let termosBusca = normalizarTexto(termoBruto).split(/\s+/).filter(t => t.length > 0);
+
+    if (termosBusca.length === 0) {
+      listaSugestoes.style.display = 'none';
+      return;
+    }
+
+    // Busca produtos onde CADA pedaço digitado esteja presente no nome
+    let resultados = listaProdutosArray.filter(p => {
+      let nomeTratado = normalizarTexto(p.nome);
+      return termosBusca.every(termo => nomeTratado.includes(termo));
+    }).slice(0, 30); // Aumentado para exibir até 30 resultados de uma vez
 
     if (resultados.length === 0) {
       listaSugestoes.style.display = 'none';
@@ -201,7 +232,7 @@ if (inBusca && listaSugestoes) {
     listaSugestoes.style.display = 'block';
   });
 
-  // Fecha a lista de sugestões ao clicar fora
+  // Fecha o menu ao clicar fora
   document.addEventListener('click', function(e) {
     if (!inBusca.contains(e.target) && !listaSugestoes.contains(e.target)) {
       listaSugestoes.style.display = 'none';
@@ -209,7 +240,7 @@ if (inBusca && listaSugestoes) {
   });
 }
 
-/* ============ LOCALSTORAGE (ESTADO DA TELA) ============ */
+/* ============ LOCALSTORAGE ============ */
 function salvarDadosTela() {
   localStorage.setItem('amipet_out_produto', outProduto.textContent);
   localStorage.setItem('amipet_out_descricao', outDescricao.textContent);
