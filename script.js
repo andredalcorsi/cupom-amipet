@@ -294,7 +294,7 @@ function calcular() {
     if (outPrecoOriginal) outPrecoOriginal.textContent = 'Preço original: ' + brl.format(preco);
   } else {
     if (outPrecoOferta) outPrecoOferta.textContent = 'R$ 0,00';
-    if (outPrecoOriginal) outPrecoOriginal.textContent = 'Informe o preço para calcular';
+    if (outPrecoOriginal) outPrecoOriginal.textContent = 'Preço original: ';
   }
 
   FAIXAS.forEach(function (f) {
