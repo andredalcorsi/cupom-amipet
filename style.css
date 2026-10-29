@@ -62,17 +62,23 @@ body {
   z-index: 99;
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
-  gap: 12px 16px;
+  align-items: center;
+  gap: 12px 24px; /* Aumentámos o espaçamento horizontal entre os blocos para dar respiro */
   padding: 12px 20px;
   background: #fff;
   box-shadow: 0 2px 12px rgba(30, 42, 46, .12);
 }
 
+/* Empurra especificamente o bloco da Base de Dados mais para a direita */
+#barra .campo:last-child {
+  margin-left: auto; 
+}
+
 #barra .campo {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  justify-content: flex-end;
+  gap: 6px;
 }
 
 #barra label {
@@ -81,8 +87,9 @@ body {
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--azul);
+  margin-bottom: 2px; /* Garante distância uniforme para o input/botão */
+  white-space: nowrap;
 }
-
 #in-codigo {
   font-family: inherit;
   font-size: 14px;
@@ -114,7 +121,8 @@ body {
 .btn-csv {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center; /* Centraliza o texto já que o ícone saiu */
+  gap: 0;
   font-family: inherit;
   font-size: 13px;
   font-weight: 600;
@@ -123,22 +131,17 @@ body {
   border: 1px solid #D1D5DB;
   border-radius: 6px;
   padding: 8px 14px;
-  cursor: pointer;
+  cursor: default; /* <-- Impede o mouse de virar a mãozinha de clique */
   user-select: none;
-  transition: all .2s ease;
   height: 38px;
   white-space: nowrap;
-}
-
-.btn-csv:hover {
-  background: #E5E7EB;
-  border-color: #9CA3AF;
 }
 
 .btn-csv.carregado {
   background: #E6F4EA !important;
   color: #137333 !important;
   border-color: #81C995 !important;
+  cursor: default; /* <-- Mantém o cursor padrão mesmo quando sincronizado */
 }
 
 .btn-subst {

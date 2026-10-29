@@ -124,7 +124,7 @@ function carregarBaseNuvem() {
       const total = processarConteudoCsv(conteudo);
       if (lblCsv && txtCsv) {
         lblCsv.classList.add('carregado');
-        txtCsv.textContent = `✓ Nuvem Ativa (${total} itens)`;
+        txtCsv.textContent = `Sincronizado`;
       }
     })
     .catch(erro => {
