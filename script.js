@@ -255,6 +255,10 @@ function salvarDadosTela() {
 }
 
 function carregarDados() {
+  // Limpa o cache antigo que estava travando a atualização dos textos
+  localStorage.removeItem('amipet_text_rot-melhor');
+  localStorage.removeItem('amipet_text_txt-selo');
+
   if (localStorage.getItem('amipet_out_produto')) {
     outProduto.textContent = localStorage.getItem('amipet_out_produto');
   }
