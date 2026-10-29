@@ -50,9 +50,10 @@ body {
   color: var(--carvao);
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
+  min-height: 100vh;
 }
 
-/* ---------- BARRA DE CONTROLES ---------- */
+/* ---------- BARRA DE CONTROLES RESPONSIVA ---------- */
 #barra {
   position: fixed;
   top: 0;
@@ -60,9 +61,10 @@ body {
   right: 0;
   z-index: 99;
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-end;
-  gap: 16px;
-  padding: 12px 24px;
+  gap: 12px 16px;
+  padding: 12px 20px;
   background: #fff;
   box-shadow: 0 2px 12px rgba(30, 42, 46, .12);
 }
@@ -91,7 +93,8 @@ body {
   border-radius: 6px;
   background: #fff;
   outline: none;
-  width: 260px;
+  width: 220px;
+  max-width: 100%;
   transition: .2s;
 }
 
@@ -101,6 +104,13 @@ body {
 }
 
 /* ---------- BOTÃO DE UPLOAD CSV PROFISSIONAL ---------- */
+.grupo-csv {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .btn-csv {
   display: inline-flex;
   align-items: center;
@@ -116,6 +126,8 @@ body {
   cursor: pointer;
   user-select: none;
   transition: all .2s ease;
+  height: 38px;
+  white-space: nowrap;
 }
 
 .btn-csv:hover {
@@ -124,15 +136,107 @@ body {
 }
 
 .btn-csv.carregado {
-  background: #E6F4EA;
-  color: #137333;
-  border-color: #A8DADC;
+  background: #E6F4EA !important;
+  color: #137333 !important;
+  border-color: #81C995 !important;
 }
 
+.btn-subst {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: #C5221F;
+  background: #FCE8E6;
+  border: 1px solid #FAD2CF;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  height: 38px;
+  transition: all .2s ease;
+  white-space: nowrap;
+}
+
+.btn-subst:hover {
+  background: #FAD2CF;
+  border-color: #F19C96;
+}
+
+/* ---------- CAMPO DE PESQUISA E DROPDOWN ---------- */
+.campo-busca {
+  position: relative;
+  flex: 1 1 240px;
+  max-width: 380px;
+}
+
+.busca-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+#in-busca {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--carvao);
+  padding: 8px 12px;
+  border: 1px solid #D5D5D0;
+  border-radius: 6px;
+  background: #fff;
+  outline: none;
+  width: 100%;
+  transition: .2s;
+}
+
+#in-busca:focus {
+  border-color: var(--azul);
+  box-shadow: 0 0 0 3px rgba(35, 111, 161, .15);
+}
+
+.sugestoes-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  max-height: 250px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(30, 42, 46, 0.15);
+  z-index: 999;
+}
+
+.sugestao-item {
+  padding: 10px 12px;
+  font-size: 13px;
+  color: var(--carvao);
+  cursor: pointer;
+  border-bottom: 1px solid #F3F4F6;
+  transition: background .15s;
+}
+
+.sugestao-item:last-child {
+  border-bottom: none;
+}
+
+.sugestao-item:hover {
+  background: #EBF3F8;
+  color: var(--azul);
+}
+
+.sugestao-item .sug-codigo {
+  font-size: 11px;
+  color: var(--cinza);
+  display: block;
+  margin-top: 2px;
+}
+
+/* ---------- ACOES DA BARRA ---------- */
 .acoes-barra {
   margin-left: auto;
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 #barra button {
@@ -146,6 +250,8 @@ body {
   background: #fff;
   color: var(--carvao);
   transition: .15s;
+  height: 38px;
+  white-space: nowrap;
 }
 
 #barra button:hover {
@@ -164,9 +270,11 @@ body {
 
 /* ---------- PALCO / FOLHA ---------- */
 #palco {
-  padding: 110px 20px 60px;
+  padding: 100px 20px 40px;
   display: flex;
   justify-content: center;
+  align-items: flex-start;
+  overflow-x: auto;
 }
 
 #folha {
@@ -178,6 +286,7 @@ body {
   gap: 14mm;
   overflow: hidden;
   box-shadow: 0 10px 34px rgba(30, 42, 46, .16);
+  flex-shrink: 0;
 }
 
 /* ---------- DISTRIBUIÇÃO DAS COLUNAS ---------- */
@@ -197,11 +306,6 @@ body {
 .logo-area {
   display: flex;
   align-items: flex-start;
-}
-
-#logo-wordmark {
-  display: none;
-  flex-direction: column;
 }
 
 #logo-img {
@@ -461,7 +565,87 @@ body {
   border-radius: 3px;
 }
 
-/* ---------- IMPRESSÃO ---------- */
+/* ============================================================
+   REGRAS DE RESPONSIVIDADE PARA DIFERENTES RESOLUÇÕES E TELAS
+   ============================================================ */
+
+/* Notebooks médios e Tablets Horizontais (<= 1200px) */
+@media screen and (max-width: 1200px) {
+  #barra {
+    position: relative;
+    padding: 12px 16px;
+  }
+
+  #palco {
+    padding: 20px 10px 40px;
+  }
+}
+
+/* Tablets Verticais e Telas Médias (<= 992px) */
+@media screen and (max-width: 992px) {
+  #barra .campo {
+    flex: 1 1 auto;
+  }
+
+  #in-codigo {
+    width: 100%;
+  }
+
+  .campo-busca {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .acoes-barra {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* Smartphones Grandes e Médios (<= 768px) */
+@media screen and (max-width: 768px) {
+  #barra {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .acoes-barra {
+    justify-content: space-between;
+  }
+
+  .acoes-barra button {
+    flex: 1;
+  }
+
+  /* Ajusta o contêiner do palco para permitir rolagem horizontal suave da folha A4 */
+  #palco {
+    justify-content: flex-start;
+    padding: 15px;
+  }
+}
+
+/* Smartphones Pequenos (<= 480px) */
+@media screen and (max-width: 480px) {
+  #barra {
+    padding: 10px;
+  }
+
+  .grupo-csv {
+    width: 100%;
+  }
+
+  .btn-csv, .btn-subst {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .acoes-barra {
+    flex-direction: column;
+  }
+}
+
+/* ---------- REGRAS DE IMPRESSÃO (A4 PAISAGEM INTACTO) ---------- */
 @page {
   size: A4 landscape;
   margin: 0;
@@ -476,6 +660,7 @@ body {
     padding: 0;
     display: block;
     background: #fff;
+    overflow: visible;
   }
 
   body {
@@ -506,125 +691,36 @@ body {
   }
 }
 
-/* ---------- BOTÃO DE UPLOAD E SUBSTITUIÇÃO CSV PROFISSIONAL ---------- */
-.grupo-csv {
+/* ---------- BLOCO DE PREÇOS INVERTIDO (OFERTA EM DESTAQUE) ---------- */
+.linha-preco {
+  margin-top: 10px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
-.btn-csv {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--carvao);
-  background: #F4F6F8;
-  border: 1px solid #D1D5DB;
-  border-radius: 6px;
-  padding: 8px 14px;
-  cursor: pointer;
-  user-select: none;
-  transition: all .2s ease;
-  height: 38px;
-}
-
-.btn-csv:hover {
-  background: #E5E7EB;
-  border-color: #9CA3AF;
-}
-
-/* Estado visual verde quando o CSV está carregado */
-.btn-csv.carregado {
-  background: #E6F4EA !important;
-  color: #137333 !important;
-  border-color: #81C995 !important;
-}
-
-.btn-subst {
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 600;
-  color: #C5221F;
-  background: #FCE8E6;
-  border: 1px solid #FAD2CF;
-  border-radius: 6px;
-  padding: 8px 12px;
-  cursor: pointer;
-  height: 38px;
-  transition: all .2s ease;
-}
-
-.btn-subst:hover {
-  background: #FAD2CF;
-  border-color: #F19C96;
-}
-
-/* ---------- CAMPO DE PESQUISA E DROPDOWN DE SUGESTÕES ---------- */
-.campo-busca {
-  position: relative;
-}
-
-.busca-wrapper {
-  position: relative;
-}
-
-#in-busca {
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--carvao);
-  padding: 8px 12px;
-  border: 1px solid #D5D5D0;
-  border-radius: 6px;
-  background: #fff;
-  outline: none;
-  width: 280px;
-  transition: .2s;
-}
-
-#in-busca:focus {
-  border-color: var(--azul);
-  box-shadow: 0 0 0 3px rgba(35, 111, 161, .15);
-}
-
-.sugestoes-dropdown {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  right: 0;
-  max-height: 250px;
-  overflow-y: auto;
-  background: #fff;
-  border: 1px solid #D1D5DB;
-  border-radius: 6px;
-  box-shadow: 0 4px 16px rgba(30, 42, 46, 0.15);
-  z-index: 999;
-}
-
-.sugestao-item {
-  padding: 10px 12px;
-  font-size: 13px;
-  color: var(--carvao);
-  cursor: pointer;
-  border-bottom: 1px solid #F3F4F6;
-  transition: background .15s;
-}
-
-.sugestao-item:last-child {
-  border-bottom: none;
-}
-
-.sugestao-item:hover {
-  background: #EBF3F8;
+#out-preco-oferta {
+  font-size: 70px;
+  font-weight: 800;
+  line-height: 1;
   color: var(--azul);
 }
 
-.sugestao-item .sug-codigo {
-  font-size: 11px;
+.selo-off {
+  background: var(--amarelo);
+  color: var(--carvao);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.preco-original {
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: 700;
   color: var(--cinza);
-  display: block;
-  margin-top: 2px;
 }

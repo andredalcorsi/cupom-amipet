@@ -11,7 +11,6 @@
 
   <!-- BARRA DE CONTROLES -->
   <div id="barra">
-    <!-- Bipar Código de Barras (Agora dispara com ENTER) -->
     <div class="campo">
       <label for="in-codigo">Bipar Código de Barras</label>
       <input type="text" id="in-codigo" placeholder="Bipe e dê Enter..." autofocus autocomplete="off">
@@ -69,11 +68,12 @@
           <h2 id="out-produto" class="edit" data-key="out-produto">Informe o nome do produto</h2>
           <p id="out-descricao" class="edit" data-key="out-descricao">Informe o código do produto</p>
           
+          <!-- BLOCO DE PREÇOS INVERTIDO -->
           <div class="linha-preco">
-            <span id="out-preco">R$ 0,00</span>
-            <span class="selo edit" data-key="txt-selo">Oferta</span>
+            <span id="out-preco-oferta">R$ 0,00</span>
+            <span class="selo-off edit" data-key="txt-selo">20% OFF</span>
           </div>
-          <div id="out-melhor">Informe o preço para calcular</div>
+          <div id="out-preco-original" class="preco-original">Preço original: R$ —</div>
         </div>
 
         <div class="rodape">

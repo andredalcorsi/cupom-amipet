@@ -278,7 +278,20 @@ function calcular() {
   const preco = precoAtual;
   const valido = !isNaN(preco) && preco > 0;
 
-  outPreco.textContent = valido ? brl.format(preco) : 'R$ 0,00';
+  const outPrecoOferta = document.getElementById('out-preco-oferta');
+  const outPrecoOriginal = document.getElementById('out-preco-original');
+
+  if (valido) {
+    const descontoMaximo = (preco * 20) / 100;
+    const finalMaximo = preco - descontoMaximo;
+    
+    // O preço grande em destaque agora é o com 20% de desconto
+    if (outPrecoOferta) outPrecoOferta.textContent = brl.format(finalMaximo);
+    if (outPrecoOriginal) outPrecoOriginal.textContent = 'Preço original: ' + brl.format(preco);
+  } else {
+    if (outPrecoOferta) outPrecoOferta.textContent = 'R$ 0,00';
+    if (outPrecoOriginal) outPrecoOriginal.textContent = 'Informe o preço para calcular';
+  }
 
   FAIXAS.forEach(function (f) {
     const elDesc = document.getElementById('desc-' + f.pct);
@@ -332,10 +345,6 @@ function calcular() {
 
   salvarDadosTela();
 }
-
-document.querySelectorAll('.edit').forEach(el => {
-  el.addEventListener('input', salvarDadosTela);
-});
 
 /* ============ BOTÃO APAGAR INFORMAÇÕES ============ */
 const btnReset = document.getElementById('btn-reset');
