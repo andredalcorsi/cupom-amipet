@@ -11,23 +11,36 @@
 
   <!-- BARRA DE CONTROLES -->
   <div id="barra">
+    <!-- Bipar Código de Barras (Agora dispara com ENTER) -->
     <div class="campo">
       <label for="in-codigo">Bipar Código de Barras</label>
-      <input type="text" id="in-codigo" placeholder="Bipe aqui..." autofocus autocomplete="off">
+      <input type="text" id="in-codigo" placeholder="Bipe e dê Enter..." autofocus autocomplete="off">
     </div>
 
-    <!-- BOTÃO DE UPLOAD CSV ESTILIZADO -->
+    <!-- PESQUISA POR NOME / DESCRIÇÃO -->
+    <div class="campo campo-busca">
+      <label for="in-busca">Pesquisar por Nome</label>
+      <div class="busca-wrapper">
+        <input type="text" id="in-busca" placeholder="Digite para buscar produto..." autocomplete="off">
+        <div id="lista-sugestoes" class="sugestoes-dropdown" style="display: none;"></div>
+      </div>
+    </div>
+
+    <!-- BASE DE DADOS CSV -->
     <div class="campo">
       <label>Base de Dados</label>
-      <label for="in-csv" class="btn-csv" id="lbl-csv">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-          <polyline points="17 8 12 3 7 8"></polyline>
-          <line x1="12" y1="3" x2="12" y2="15"></line>
-        </svg>
-        <span id="txt-csv">Carregar CSV</span>
-      </label>
-      <input type="file" id="in-csv" accept=".csv" style="display: none;">
+      <div class="grupo-csv">
+        <label for="in-csv" class="btn-csv" id="lbl-csv">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          <span id="txt-csv">Carregar CSV</span>
+        </label>
+        <input type="file" id="in-csv" accept=".csv" style="display: none;">
+        <button type="button" id="btn-substituir" class="btn-subst" style="display: none;">Trocar CSV</button>
+      </div>
     </div>
 
     <div class="acoes-barra">
@@ -81,7 +94,7 @@
           <p class="card-sub edit" data-key="card-sub">Calculado sobre o preço informado</p>
 
           <div class="destaque">
-            <div class="rot-melhor edit" data-key="rot-melhor">Melhor preço possível (com 20%):</div>
+            <div class="rot-melhor edit" data-key="rot-melhor">Melhor preço: 20% em compras acima de R$1.000,00</div>
             <div id="out-destaque">—</div>
           </div>
 

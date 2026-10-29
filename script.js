@@ -8,16 +8,25 @@ const FAIXAS = [
 const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
 const inCodigo = document.getElementById('in-codigo');
+const inBusca = document.getElementById('in-busca');
+const listaSugestoes = document.getElementById('lista-sugestoes');
 const outProduto = document.getElementById('out-produto');
 const outDescricao = document.getElementById('out-descricao');
 const outPreco = document.getElementById('out-preco');
 const outMelhor = document.getElementById('out-melhor');
 const outDestaque = document.getElementById('out-destaque');
 
-/* Variável de memória do Preço (como removemos o input da barra) */
 let precoAtual = 0;
+let baseProdutos = {}; // Dicionário por código normalizado
+let listaProdutosArray = []; // Array para busca por nome
 
-/* Converte "1.234,56" em número */
+/* Normalização de código de barras: remove zeros à esquerda e traços */
+function normalizarCodigo(codigo) {
+  if (!codigo) return '';
+  let limpo = String(codigo).trim().replace(/-/g, '');
+  return limpo.replace(/^0+/, '');
+}
+
 function parsePreco(valor) {
   if (!valor) return NaN;
   let s = String(valor).replace(/[^\d,.-]/g, '');
@@ -29,11 +38,60 @@ function parsePreco(valor) {
 }
 
 /* ============ BANCO DE DADOS LOCAL VIA CSV ============ */
-let baseProdutos = {};
-
 const inputFileCsv = document.getElementById('in-csv');
 const lblCsv = document.getElementById('lbl-csv');
 const txtCsv = document.getElementById('txt-csv');
+const btnSubstituir = document.getElementById('btn-substituir');
+
+function processarConteudoCsv(conteudo) {
+  const linhas = conteudo.split(/\r\n|\n/);
+  baseProdutos = {};
+  listaProdutosArray = [];
+  
+  if (linhas.length === 0) return 0;
+  let cabecalho = linhas[0].split(';');
+  
+  let idxCodigo = cabecalho.indexOf('"Código Barra Principal"');
+  if (idxCodigo === -1) idxCodigo = cabecalho.indexOf('Código Barra Principal');
+  if (idxCodigo === -1) idxCodigo = 1;
+
+  let idxDescricao = cabecalho.indexOf('"Descrição"');
+  if (idxDescricao === -1) idxDescricao = cabecalho.indexOf('Descrição');
+  if (idxDescricao === -1) idxDescricao = 3;
+
+  let idxVenda = cabecalho.indexOf('"Venda"');
+  if (idxVenda === -1) idxVenda = cabecalho.indexOf('Venda');
+  if (idxVenda === -1) idxVenda = 51;
+
+  let totalCarregado = 0;
+
+  for (let i = 1; i < linhas.length; i++) {
+    let linha = linhas[i].trim();
+    if (!linha) continue;
+    
+    let colunas = linha.split(';');
+    if (colunas.length > Math.max(idxCodigo, idxDescricao, idxVenda)) {
+      let codigoBruto = colunas[idxCodigo].trim().replace(/"/g, '');
+      let descricao = colunas[idxDescricao].trim().replace(/"/g, '');
+      let venda = colunas[idxVenda].trim().replace(/"/g, '').replace(',', '.');
+      
+      let codigoNormalizado = normalizarCodigo(codigoBruto);
+      
+      if (codigoNormalizado && descricao) {
+        let item = {
+          codigoOriginal: codigoBruto,
+          codigoNorm: codigoNormalizado,
+          nome: descricao,
+          preco: venda
+        };
+        baseProdutos[codigoNormalizado] = item;
+        listaProdutosArray.push(item);
+        totalCarregado++;
+      }
+    }
+  }
+  return totalCarregado;
+}
 
 if (inputFileCsv) {
   inputFileCsv.addEventListener('change', function(e) {
@@ -43,50 +101,16 @@ if (inputFileCsv) {
     const leitor = new FileReader();
     leitor.onload = function(evento) {
       const conteudo = evento.target.result;
-      const linhas = conteudo.split(/\r\n|\n/);
-      
-      baseProdutos = {};
-      
-      if (linhas.length === 0) return;
-      let cabecalho = linhas[0].split(';');
-      
-      let idxCodigo = cabecalho.indexOf('"Código Barra Principal"');
-      if (idxCodigo === -1) idxCodigo = cabecalho.indexOf('Código Barra Principal');
-      if (idxCodigo === -1) idxCodigo = 1;
+      const total = processarConteudoCsv(conteudo);
 
-      let idxDescricao = cabecalho.indexOf('"Descrição"');
-      if (idxDescricao === -1) idxDescricao = cabecalho.indexOf('Descrição');
-      if (idxDescricao === -1) idxDescricao = 3;
-
-      let idxVenda = cabecalho.indexOf('"Venda"');
-      if (idxVenda === -1) idxVenda = cabecalho.indexOf('Venda');
-      if (idxVenda === -1) idxVenda = 51;
-
-      let totalCarregado = 0;
-
-      for (let i = 1; i < linhas.length; i++) {
-        let linha = linhas[i].trim();
-        if (!linha) continue;
-        
-        let colunas = linha.split(';');
-        if (colunas.length > Math.max(idxCodigo, idxDescricao, idxVenda)) {
-          let codigo = colunas[idxCodigo].trim().replace(/"/g, '');
-          let descricao = colunas[idxDescricao].trim().replace(/"/g, '');
-          let venda = colunas[idxVenda].trim().replace(/"/g, '').replace(',', '.');
-          
-          if (codigo) {
-            baseProdutos[codigo] = {
-              nome: descricao,
-              preco: venda
-            };
-            totalCarregado++;
-          }
-        }
+      if (lblCsv && txtCsv) {
+        lblCsv.classList.add('carregado');
+        txtCsv.textContent = `✓ CSV Ativo (${total} itens)`;
       }
 
-      // Atualiza visualmente o botão de upload de CSV
-      lblCsv.classList.add('carregado');
-      txtCsv.textContent = `CSV Pronto (${totalCarregado} itens)`;
+      if (btnSubstituir) {
+        btnSubstituir.style.display = 'inline-block';
+      }
 
       if (inCodigo) inCodigo.focus();
     };
@@ -95,34 +119,98 @@ if (inputFileCsv) {
   });
 }
 
-/* ============ EVENTO DE BIPAGEM / DIGITAÇÃO ============ */
-if (inCodigo) {
-  inCodigo.addEventListener('input', function() {
-    let codigoBipado = inCodigo.value.trim();
+if (btnSubstituir) {
+  btnSubstituir.addEventListener('click', function() {
+    baseProdutos = {};
+    listaProdutosArray = [];
+    if (lblCsv && txtCsv) {
+      lblCsv.classList.remove('carregado');
+      txtCsv.textContent = 'Carregar CSV';
+    }
+    btnSubstituir.style.display = 'none';
+    if (inputFileCsv) inputFileCsv.value = '';
     
-    if (baseProdutos[codigoBipado]) {
-      let prod = baseProdutos[codigoBipado];
+    alert('Base CSV removida. Pode selecionar um novo ficheiro.');
+  });
+}
+
+/* ============ SELECIONAR PRODUTO (FUNÇÃO COMUM) ============ */
+function carregarProdutoNaTela(prod) {
+  outProduto.textContent = prod.nome;
+  outDescricao.textContent = "Cód: " + prod.codigoOriginal;
+  
+  precoAtual = parsePreco(prod.preco);
+  
+  calcular();
+  salvarDadosTela();
+}
+
+/* ============ BIPAGEM VIA CÓDIGO DE BARRAS (AGORA DISPARA COM ENTER) ============ */
+if (inCodigo) {
+  inCodigo.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      let codigoBipado = normalizarCodigo(inCodigo.value);
       
-      // Atualiza visualmente na folha A4
-      outProduto.textContent = prod.nome;
-      outDescricao.textContent = "Cód: " + codigoBipado;
-      
-      precoAtual = parsePreco(prod.preco);
-      
-      calcular();
-      salvarDados();
-      
-      // Limpa o input do leitor de imediato para o próximo bip
-      setTimeout(() => {
+      if (baseProdutos[codigoBipado]) {
+        carregarProdutoNaTela(baseProdutos[codigoBipado]);
         inCodigo.value = '';
         inCodigo.focus();
-      }, 50);
+      } else {
+        alert('Código não encontrado na base de dados!');
+        inCodigo.select();
+      }
     }
   });
 }
 
-/* ============ LOCALSTORAGE (PERSISTÊNCIA) ============ */
-function salvarDados() {
+/* ============ PESQUISA POR NOME / DESCRIÇÃO COM SUGESTÕES ============ */
+if (inBusca && listaSugestoes) {
+  inBusca.addEventListener('input', function() {
+    let termo = inBusca.value.trim().toLowerCase();
+    listaSugestoes.innerHTML = '';
+
+    if (termo.length < 2) {
+      listaSugestoes.style.display = 'none';
+      return;
+    }
+
+    // Filtra produtos contendo o termo digitado (máximo 15 sugestões para performance)
+    let resultados = listaProdutosArray.filter(p => p.nome.toLowerCase().includes(termo)).slice(0, 15);
+
+    if (resultados.length === 0) {
+      listaSugestoes.style.display = 'none';
+      return;
+    }
+
+    resultados.forEach(prod => {
+      let div = document.createElement('div');
+      div.className = 'sugestao-item';
+      div.innerHTML = `<strong>${prod.nome}</strong><span class="sug-codigo">Cód: ${prod.codigoOriginal} | R$ ${prod.preco}</span>`;
+      
+      div.addEventListener('click', function() {
+        carregarProdutoNaTela(prod);
+        inBusca.value = '';
+        listaSugestoes.style.display = 'none';
+        if (inCodigo) inCodigo.focus();
+      });
+
+      listaSugestoes.appendChild(div);
+    });
+
+    listaSugestoes.style.display = 'block';
+  });
+
+  // Fecha a lista de sugestões ao clicar fora
+  document.addEventListener('click', function(e) {
+    if (!inBusca.contains(e.target) && !listaSugestoes.contains(e.target)) {
+      listaSugestoes.style.display = 'none';
+    }
+  });
+}
+
+/* ============ LOCALSTORAGE (ESTADO DA TELA) ============ */
+function salvarDadosTela() {
   localStorage.setItem('amipet_out_produto', outProduto.textContent);
   localStorage.setItem('amipet_out_descricao', outDescricao.textContent);
   localStorage.setItem('amipet_preco_atual', precoAtual);
@@ -211,21 +299,31 @@ function calcular() {
     if (outMelhor) outMelhor.textContent = 'Informe o preço para calcular';
   }
 
-  salvarDados();
+  salvarDadosTela();
 }
 
-/* ============ EVENTO EDICAO DIRETA ============ */
 document.querySelectorAll('.edit').forEach(el => {
-  el.addEventListener('input', salvarDados);
+  el.addEventListener('input', salvarDadosTela);
 });
 
-/* ============ BOTÃO RESETAR / LIMPAR TUDO ============ */
+/* ============ BOTÃO APAGAR INFORMAÇÕES ============ */
 const btnReset = document.getElementById('btn-reset');
 if (btnReset) {
   btnReset.addEventListener('click', function () {
-    if (confirm('Deseja realmente limpar todas as informações e restaurar os padrões?')) {
-      localStorage.clear();
-      location.reload();
+    if (confirm('Deseja limpar o produto atual da tela? (A sua base CSV continuará ativa na memória).')) {
+      localStorage.removeItem('amipet_out_produto');
+      localStorage.removeItem('amipet_out_descricao');
+      localStorage.removeItem('amipet_preco_atual');
+      
+      outProduto.textContent = "Informe o nome do produto";
+      outDescricao.textContent = "Informe o código do produto";
+      precoAtual = 0;
+      calcular();
+      
+      if (inCodigo) {
+        inCodigo.value = '';
+        inCodigo.focus();
+      }
     }
   });
 }

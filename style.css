@@ -355,7 +355,7 @@ body {
 }
 
 .rot-melhor {
-  font-size: 12.5px;
+  font-size: 11.5px;
   font-weight: 700;
   letter-spacing: .08em;
   text-transform: uppercase;
@@ -504,4 +504,127 @@ body {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
+}
+
+/* ---------- BOTÃO DE UPLOAD E SUBSTITUIÇÃO CSV PROFISSIONAL ---------- */
+.grupo-csv {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-csv {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--carvao);
+  background: #F4F6F8;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+  user-select: none;
+  transition: all .2s ease;
+  height: 38px;
+}
+
+.btn-csv:hover {
+  background: #E5E7EB;
+  border-color: #9CA3AF;
+}
+
+/* Estado visual verde quando o CSV está carregado */
+.btn-csv.carregado {
+  background: #E6F4EA !important;
+  color: #137333 !important;
+  border-color: #81C995 !important;
+}
+
+.btn-subst {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: #C5221F;
+  background: #FCE8E6;
+  border: 1px solid #FAD2CF;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  height: 38px;
+  transition: all .2s ease;
+}
+
+.btn-subst:hover {
+  background: #FAD2CF;
+  border-color: #F19C96;
+}
+
+/* ---------- CAMPO DE PESQUISA E DROPDOWN DE SUGESTÕES ---------- */
+.campo-busca {
+  position: relative;
+}
+
+.busca-wrapper {
+  position: relative;
+}
+
+#in-busca {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--carvao);
+  padding: 8px 12px;
+  border: 1px solid #D5D5D0;
+  border-radius: 6px;
+  background: #fff;
+  outline: none;
+  width: 280px;
+  transition: .2s;
+}
+
+#in-busca:focus {
+  border-color: var(--azul);
+  box-shadow: 0 0 0 3px rgba(35, 111, 161, .15);
+}
+
+.sugestoes-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  max-height: 250px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(30, 42, 46, 0.15);
+  z-index: 999;
+}
+
+.sugestao-item {
+  padding: 10px 12px;
+  font-size: 13px;
+  color: var(--carvao);
+  cursor: pointer;
+  border-bottom: 1px solid #F3F4F6;
+  transition: background .15s;
+}
+
+.sugestao-item:last-child {
+  border-bottom: none;
+}
+
+.sugestao-item:hover {
+  background: #EBF3F8;
+  color: var(--azul);
+}
+
+.sugestao-item .sug-codigo {
+  font-size: 11px;
+  color: var(--cinza);
+  display: block;
+  margin-top: 2px;
 }
