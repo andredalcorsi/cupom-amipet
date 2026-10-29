@@ -5,29 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Banner Amipet</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="icon" type="image/png" href="LOGOS-ASSINATURAS-VARIADOS/Símbolo.png">
+  <link rel="icon" type="image/png" href="LOGOS-ASSINATURAS-VARIADOS/Simbolo.png">
 </head>
 <body>
 
   <!-- BARRA DE CONTROLES -->
   <div id="barra">
     <div class="campo">
-      <label for="in-produto">Produto</label>
-      <input type="text" id="in-produto" value="Informe o nome do produto">
+      <label for="in-codigo">Bipar Código de Barras</label>
+      <input type="text" id="in-codigo" placeholder="Bipe aqui..." autofocus autocomplete="off">
     </div>
 
+    <!-- BOTÃO DE UPLOAD CSV ESTILIZADO -->
     <div class="campo">
-      <label for="in-descricao">Código de Barras</label>
-      <input type="text" id="in-descricao" value="Informe o código do produto">
+      <label>Base de Dados</label>
+      <label for="in-csv" class="btn-csv" id="lbl-csv">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="17 8 12 3 7 8"></polyline>
+          <line x1="12" y1="3" x2="12" y2="15"></line>
+        </svg>
+        <span id="txt-csv">Carregar CSV</span>
+      </label>
+      <input type="file" id="in-csv" accept=".csv" style="display: none;">
     </div>
 
-    <div class="campo">
-      <label for="in-preco">Preço (R$)</label>
-      <input type="text" id="in-preco" value="0,00">
+    <div class="acoes-barra">
+      <button type="button" id="btn-imprimir">Imprimir / Salvar PDF</button>
+      <button type="button" id="btn-reset" style="background: #d9534f; color: #fff; border-color: #d9534f;">Apagar informações</button>
     </div>
-
-    <button type="button" id="btn-imprimir">Imprimir / Salvar PDF</button>
-    <button type="button" id="btn-reset" style="background: #d9534f; color: #fff; border-color: #d9534f;">Apagar informações</button>
   </div>
 
   <!-- PALCO DA IMPRESSÃO -->
@@ -47,8 +53,8 @@
         </div>
 
         <div class="bloco-produto">
-          <h2 id="out-produto" class="edit" data-key="out-produto">Nome do Produto</h2>
-          <p id="out-descricao" class="edit" data-key="out-descricao">Descrição do Produto</p>
+          <h2 id="out-produto" class="edit" data-key="out-produto">Informe o nome do produto</h2>
+          <p id="out-descricao" class="edit" data-key="out-descricao">Informe o código do produto</p>
           
           <div class="linha-preco">
             <span id="out-preco">R$ 0,00</span>
@@ -63,11 +69,10 @@
               <span class="rot">ENTRE EM CONTATO COM A GENTE!</span>
               <span class="edit" data-key="txt-contato">Escaneie o QR Code ao lado</span>
             </div>
-            <!-- Elemento onde o QR Code será gerado automaticamente -->
             <div id="qrcode" style="background: white; padding: 4px; border-radius: 4px;"></div>
           </div>
         </div>
-      </div> <!-- Fechamento correto da col-esq -->
+      </div>
 
       <!-- COLUNA DA DIREITA -->
       <div class="col-dir">
@@ -126,7 +131,6 @@
     </div>
   </div>
 
-  <!-- A biblioteca do QR Code vem antes do script principal -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="script.js"></script>
 </body>

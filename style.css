@@ -60,10 +60,9 @@ body {
   right: 0;
   z-index: 99;
   display: flex;
-  flex-wrap: wrap;
   align-items: flex-end;
-  gap: 14px;
-  padding: 12px 18px;
+  gap: 16px;
+  padding: 12px 24px;
   background: #fff;
   box-shadow: 0 2px 12px rgba(30, 42, 46, .12);
 }
@@ -82,34 +81,58 @@ body {
   color: var(--azul);
 }
 
-#barra input[type=text] {
+#in-codigo {
   font-family: inherit;
-  font-size: 13px;
-  color: #6B7A7E;
-  padding: 7px 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--carvao);
+  padding: 8px 12px;
   border: 1px solid #D5D5D0;
   border-radius: 6px;
   background: #fff;
   outline: none;
+  width: 260px;
+  transition: .2s;
 }
 
-#barra input[type=text]:focus {
+#in-codigo:focus {
   border-color: var(--azul);
-  box-shadow: 0 0 0 3px rgba(35, 111, 161, .12);
+  box-shadow: 0 0 0 3px rgba(35, 111, 161, .15);
 }
 
-#in-produto {
-  width: 300px;
+/* ---------- BOTÃO DE UPLOAD CSV PROFISSIONAL ---------- */
+.btn-csv {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--carvao);
+  background: #F4F6F8;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+  user-select: none;
+  transition: all .2s ease;
 }
 
-#in-descricao {
-  width: 380px;
+.btn-csv:hover {
+  background: #E5E7EB;
+  border-color: #9CA3AF;
 }
 
-#in-preco {
-  width: 110px;
-  font-weight: 700;
-  color: var(--azul);
+.btn-csv.carregado {
+  background: #E6F4EA;
+  color: #137333;
+  border-color: #A8DADC;
+}
+
+.acoes-barra {
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
 }
 
 #barra button {
@@ -137,11 +160,6 @@ body {
 
 #btn-imprimir:hover {
   background: #1D5C87;
-}
-
-#btn-limpar-logo {
-  font-weight: 500;
-  color: var(--cinza);
 }
 
 /* ---------- PALCO / FOLHA ---------- */
@@ -188,7 +206,7 @@ body {
 
 #logo-img {
   display: block;
-  max-height: 30mm; /* Logo bem maior e destacada */
+  max-height: 30mm;
   max-width: 85mm;
   object-fit: contain;
   object-position: left top;
@@ -298,7 +316,7 @@ body {
   margin-right: 4px;
 }
 
-/* ---------- CARD DE CONDIÇÕES (DIREITA COM FONTES GRANDES) ---------- */
+/* ---------- CARD DE CONDIÇÕES ---------- */
 .card {
   width: 100%;
   height: 100%;
@@ -316,7 +334,7 @@ body {
 
 .card h3 {
   margin: 0;
-  font-size: 16px; /* Aumentado */
+  font-size: 16px;
   font-weight: 800;
   letter-spacing: .10em;
   text-transform: uppercase;
@@ -325,11 +343,10 @@ body {
 
 .card-sub {
   margin: 2px 0 10px 0;
-  font-size: 13px; /* Aumentado */
+  font-size: 13px;
   color: var(--cinza);
 }
 
-/* DESTAQUE NO TOPO DO CARD (F größer) */
 .destaque {
   padding: 14px 16px;
   border-radius: 8px;
@@ -338,7 +355,7 @@ body {
 }
 
 .rot-melhor {
-  font-size: 12.5px; /* Aumentado */
+  font-size: 12.5px;
   font-weight: 700;
   letter-spacing: .08em;
   text-transform: uppercase;
@@ -347,7 +364,7 @@ body {
 
 #out-destaque {
   margin-top: 3px;
-  font-size: 32px; /* Bem maior para destaque máximo */
+  font-size: 32px;
   font-weight: 800;
   color: var(--azul);
 }
@@ -366,7 +383,7 @@ body {
 }
 
 .pct {
-  font-size: 38px; /* Porcentagens bem maiores */
+  font-size: 38px;
   font-weight: 800;
   line-height: 1;
   color: var(--verde);
@@ -381,24 +398,24 @@ body {
 }
 
 .cond {
-  font-size: 15px; /* Aumentado */
+  font-size: 15px;
   font-weight: 600;
   color: var(--carvao);
 }
 
 .valores {
   display: flex;
-  flex-direction: column; /* Empilha o "Desconto" em cima e o "Final" embaixo */
-  gap: 7px;               /* Espaçamento sutil entre as linhas */
+  flex-direction: column;
+  gap: 7px;
 }
 
 .desc {
-  font-size: 18px; /* Aumentado */
+  font-size: 18px;
   color: var(--verde);
 }
 
 .final {
-  font-size: 18px; /* Aumentado */
+  font-size: 18px;
   font-weight: 700;
   color: var(--carvao);
 }
@@ -410,7 +427,7 @@ body {
 .tag {
   display: inline-block;
   margin-top: 3px;
-  font-size: 12px; /* Aumentado */
+  font-size: 12px;
   padding: 3px 8px;
   border-radius: 4px;
   font-weight: 600;
@@ -432,7 +449,7 @@ body {
   border-radius: 8px;
   background: var(--azul);
   color: #fff;
-  font-size: 14.5px; /* Aumentado */
+  font-size: 14.5px;
   font-weight: 700;
   text-align: center;
   letter-spacing: .04em;
@@ -442,41 +459,6 @@ body {
   outline: 1px dashed rgba(35, 111, 161, .5);
   outline-offset: 2px;
   border-radius: 3px;
-}
-
-/* ---------- RESPONSIVIDADE PARA MOBILE ---------- */
-@media screen and (max-width: 1024px) {
-  #barra {
-    position: relative;
-    width: 100%;
-  }
-
-  #palco {
-    padding: 20px 10px 40px;
-  }
-
-  #folha {
-    width: 100%;
-    height: auto;
-    min-height: auto;
-    flex-direction: column;
-    padding: 20px;
-    gap: 20px;
-    overflow: visible;
-  }
-
-  .col-esq {
-    flex: none;
-    width: 100%;
-  }
-
-  .col-dir {
-    width: 100%;
-  }
-
-  .card {
-    height: auto;
-  }
 }
 
 /* ---------- IMPRESSÃO ---------- */
