@@ -16,6 +16,53 @@ const outPreco = document.getElementById('out-preco');
 const outMelhor = document.getElementById('out-melhor');
 const outDestaque = document.getElementById('out-destaque');
 
+/* Textos padrões iniciais para limpar ao clicar */
+const DEFAULT_PRODUTO = "Informe o nome do produto";
+const DEFAULT_DESCRICAO = "Informe o código do produto";
+
+inProduto.addEventListener('focus', function() {
+  if (inProduto.value === DEFAULT_PRODUTO) {
+    inProduto.value = '';
+  }
+});
+
+inProduto.addEventListener('blur', function() {
+  if (inProduto.value.trim() === '') {
+    inProduto.value = DEFAULT_PRODUTO;
+    outProduto.textContent = DEFAULT_PRODUTO;
+    salvarDados();
+  }
+});
+
+inDescricao.addEventListener('focus', function() {
+  if (inDescricao.value === DEFAULT_DESCRICAO) {
+    inDescricao.value = '';
+  }
+});
+
+inDescricao.addEventListener('blur', function() {
+  if (inDescricao.value.trim() === '') {
+    inDescricao.value = DEFAULT_DESCRICAO;
+    outDescricao.textContent = DEFAULT_DESCRICAO;
+    salvarDados();
+  }
+});
+
+const DEFAULT_PRECO = "0,00";
+
+inPreco.addEventListener('focus', function() {
+  if (inPreco.value === DEFAULT_PRECO || inPreco.value === "0,00") {
+    inPreco.value = '';
+  }
+});
+
+inPreco.addEventListener('blur', function() {
+  if (inPreco.value.trim() === '') {
+    inPreco.value = DEFAULT_PRECO;
+    calcular();
+  }
+});
+
 /* Converte "1.234,56" em número */
 function parsePreco(valor) {
   if (!valor) return NaN;
@@ -29,12 +76,10 @@ function parsePreco(valor) {
 
 /* ============ LOCALSTORAGE (PERSISTÊNCIA) ============ */
 function salvarDados() {
-  // Salva inputs da barra
   localStorage.setItem('amipet_produto', inProduto.value);
   localStorage.setItem('amipet_descricao', inDescricao.value);
   localStorage.setItem('amipet_preco', inPreco.value);
 
-  // Salva textos editáveis da página (usando o data-key)
   document.querySelectorAll('.edit').forEach(el => {
     const key = el.getAttribute('data-key');
     if (key) {
@@ -42,7 +87,6 @@ function salvarDados() {
     }
   });
 
-  // Salva imagem da logo se houver carregamento customizado
   const logoImg = document.getElementById('logo-img');
   if (logoImg.src && logoImg.src.startsWith('data:image')) {
     localStorage.setItem('amipet_logo', logoImg.src);
@@ -62,7 +106,6 @@ function carregarDados() {
     inPreco.value = localStorage.getItem('amipet_preco');
   }
 
-  // Carrega textos editáveis salvos
   document.querySelectorAll('.edit').forEach(el => {
     const key = el.getAttribute('data-key');
     if (key && localStorage.getItem('amipet_text_' + key)) {
@@ -70,7 +113,6 @@ function carregarDados() {
     }
   });
 
-  // Carrega logo customizada salva
   const salvouLogo = localStorage.getItem('amipet_logo');
   if (salvouLogo) {
     document.getElementById('logo-img').src = salvouLogo;
@@ -96,7 +138,7 @@ function calcular() {
 
     if (!valido) {
       elDesc.textContent = 'Desconto: —';
-      elFinal.textContent = 'Final: —';
+      elFinal.textContent = 'Valor final do produto: —';
       elTag.textContent = '';
       elTag.className = 'tag';
       return;
@@ -106,7 +148,7 @@ function calcular() {
     const final = preco - desconto;
 
     elDesc.textContent = 'Desconto: ' + brl.format(desconto);
-    elFinal.textContent = 'Final: ' + brl.format(final);
+    elFinal.textContent = 'Valor final do produto: ' + brl.format(final);
 
     const alcancou = preco >= f.min;
 
@@ -123,12 +165,15 @@ function calcular() {
     }
   });
 
-  if (valido && melhorPct !== null) {
-    outMelhor.textContent = 'Com ' + melhorPct + '% de desconto: ' + brl.format(melhorFinal);
-    outDestaque.textContent = brl.format(melhorFinal);
+ // Sempre calcula o preço com 20% de desconto para o destaque superior
+  if (valido) {
+    const descontoMaximo = (preco * 20) / 100;
+    const finalMaximo = preco - descontoMaximo;
+    outDestaque.textContent = brl.format(finalMaximo);
+    outMelhor.textContent = 'Com 20% de desconto: ' + brl.format(finalMaximo);
   } else {
-    outMelhor.textContent = 'Informe o preço para calcular';
     outDestaque.textContent = '—';
+    outMelhor.textContent = 'Informe o preço para calcular';
   }
 
   salvarDados();
@@ -147,59 +192,16 @@ inDescricao.addEventListener('input', function () {
 
 inPreco.addEventListener('input', calcular);
 
-// Salva sempre que o usuário altera algum texto editável na tela
 document.querySelectorAll('.edit').forEach(el => {
   el.addEventListener('input', salvarDados);
 });
 
-/* ============ LOGO ============ */
-const logoImg = document.getElementById('logo-img');
-const inLogo = document.getElementById('in-logo');
-
-document.getElementById('btn-logo').addEventListener('click', function () {
-  inLogo.click();
-});
-
-inLogo.addEventListener('change', function () {
-  const arquivo = inLogo.files && inLogo.files[0];
-  if (!arquivo) return;
-  const leitor = new FileReader();
-  leitor.onload = function (e) {
-    logoImg.src = e.target.result;
-    salvarDados();
-  };
-  leitor.readAsDataURL(arquivo);
-});
-
-document.getElementById('btn-limpar-logo').addEventListener('click', function () {
-  logoImg.src = "LOGOS-ASSINATURAS-VARIADOS/Principal (2).png";
-  localStorage.removeItem('amipet_logo');
-  inLogo.value = '';
-});
-
 /* ============ BOTÃO RESETAR / LIMPAR TUDO ============ */
 document.getElementById('btn-reset').addEventListener('click', function () {
-  if (confirm('Deseja realmente limpar todas as alterações e restaurar os padrões?')) {
+  if (confirm('Deseja realmente limpar todas as informações e restaurar os padrões?')) {
     localStorage.clear();
     location.reload();
   }
-});
-
-/* ============ EDIÇÃO DOS TEXTOS FIXOS ============ */
-const btnEditar = document.getElementById('btn-editar');
-let editando = false;
-
-btnEditar.addEventListener('click', function () {
-  editando = !editando;
-  document.querySelectorAll('.edit').forEach(function (el) {
-    if (editando) {
-      el.setAttribute('contenteditable', 'true');
-    } else {
-      el.removeAttribute('contenteditable');
-      salvarDados();
-    }
-  });
-  btnEditar.textContent = editando ? 'Desativar edição' : 'Ativar edição';
 });
 
 /* ============ IMPRESSÃO ============ */
@@ -211,4 +213,21 @@ document.getElementById('btn-imprimir').addEventListener('click', function () {
 document.addEventListener('DOMContentLoaded', function () {
   carregarDados();
   calcular();
+});
+
+/* ============ GERAR QR CODE DO LINKTREE ============ */
+document.addEventListener('DOMContentLoaded', function () {
+  // Limpa caso já exista e gera um novo QR Code
+  const containerQr = document.getElementById('qrcode');
+  if (containerQr) {
+    containerQr.innerHTML = "";
+    new QRCode(containerQr, {
+      text: "https://linktr.ee/amipetgrupo",
+      width: 75,  // Tamanho ideal para o rodapé A4 paisagem
+      height: 75,
+      colorDark: "#1E2A2E",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  }
 });

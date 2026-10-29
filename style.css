@@ -79,13 +79,13 @@ body {
   font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: var(--cinza);
+  color: var(--azul);
 }
 
 #barra input[type=text] {
   font-family: inherit;
   font-size: 13px;
-  color: var(--carvao);
+  color: #6B7A7E;
   padding: 7px 10px;
   border: 1px solid #D5D5D0;
   border-radius: 6px;
@@ -188,7 +188,7 @@ body {
 
 #logo-img {
   display: block;
-  max-height: 24mm; /* Logo bem maior e destacada */
+  max-height: 30mm; /* Logo bem maior e destacada */
   max-width: 85mm;
   object-fit: contain;
   object-position: left top;
@@ -253,7 +253,7 @@ body {
 }
 
 #out-preco {
-  font-size: 48px;
+  font-size: 70px;
   font-weight: 800;
   line-height: 1;
   color: var(--azul);
@@ -388,23 +388,23 @@ body {
 
 .valores {
   display: flex;
-  flex-wrap: wrap;
-  gap: 4px 14px;
+  flex-direction: column; /* Empilha o "Desconto" em cima e o "Final" embaixo */
+  gap: 7px;               /* Espaçamento sutil entre as linhas */
 }
 
 .desc {
-  font-size: 14px; /* Aumentado */
-  color: rgba(30, 42, 46, .85);
+  font-size: 18px; /* Aumentado */
+  color: var(--verde);
 }
 
 .final {
-  font-size: 14px; /* Aumentado */
+  font-size: 18px; /* Aumentado */
   font-weight: 700;
   color: var(--carvao);
 }
 
 .final.aplicavel {
-  color: var(--azul);
+  color: #ff0000;
 }
 
 .tag {

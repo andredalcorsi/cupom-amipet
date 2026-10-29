@@ -12,12 +12,12 @@
   <div id="barra">
     <div class="campo">
       <label for="in-produto">Produto</label>
-      <input type="text" id="in-produto" value="Insira o nome do produto aqui...">
+      <input type="text" id="in-produto" value="Informe o nome do produto">
     </div>
 
     <div class="campo">
-      <label for="in-descricao">Descrição</label>
-      <input type="text" id="in-descricao" value="Insira a descrição">
+      <label for="in-descricao">Código de Barras</label>
+      <input type="text" id="in-descricao" value="Informe o código do produto">
     </div>
 
     <div class="campo">
@@ -25,14 +25,6 @@
       <input type="text" id="in-preco" value="0,00">
     </div>
 
-    <div class="campo">
-      <label>Logo</label>
-      <button type="button" id="btn-logo">Carregar logo</button>
-      <input type="file" id="in-logo" accept="image/*" style="display:none">
-    </div>
-
-    <button type="button" id="btn-limpar-logo">Restaurar logo</button>
-    <button type="button" id="btn-editar">Ativar edição</button>
     <button type="button" id="btn-imprimir">Imprimir / Salvar PDF</button>
     <button type="button" id="btn-reset" style="background: #d9534f; color: #fff; border-color: #d9534f;">Apagar informações</button>
   </div>
@@ -65,11 +57,16 @@
         </div>
 
         <div class="rodape">
-          <div><span class="rot">Endereço</span><span class="edit" data-key="end-loja">Rua / Avenida, número — Bairro</span></div>
-          <div><span class="rot">WhatsApp</span><span class="edit" data-key="whats-loja">(00) 00000-0000</span></div>
-          <div><span class="rot">Instagram</span><span class="edit" data-key="insta-loja">@amipet</span></div>
+          <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+            <div>
+              <span class="rot">ENTRE EM CONTATO COM A GENTE!</span>
+              <span class="edit" data-key="txt-contato">Escaneie o QR Code ao lado</span>
+            </div>
+            <!-- Elemento onde o QR Code será gerado automaticamente -->
+            <div id="qrcode" style="background: white; padding: 4px; border-radius: 4px;"></div>
+          </div>
         </div>
-      </div>
+      </div> <!-- Fechamento correto da col-esq -->
 
       <!-- COLUNA DA DIREITA -->
       <div class="col-dir">
@@ -78,7 +75,7 @@
           <p class="card-sub edit" data-key="card-sub">Calculado sobre o preço informado</p>
 
           <div class="destaque">
-            <div class="rot-melhor edit" data-key="rot-melhor">Melhor preço para este item</div>
+            <div class="rot-melhor edit" data-key="rot-melhor">Melhor preço possível (com 20%):</div>
             <div id="out-destaque">—</div>
           </div>
 
@@ -86,10 +83,10 @@
           <div class="faixa">
             <div class="pct">10%</div>
             <div class="faixa-info">
-              <div class="cond edit" data-key="cond-10">Em qualquer compra (sem mínimo)</div>
+              <div class="cond edit" data-key="cond-10">Sem valor mínimo</div>
               <div class="valores">
                 <span class="desc" id="desc-10">Desconto: R$ —</span>
-                <span class="final" id="final-10">Final: R$ —</span>
+                <span class="final" id="final-10">Valor final do produto: R$ —</span>
               </div>
               <span class="tag" id="tag-10"></span>
             </div>
@@ -99,10 +96,10 @@
           <div class="faixa">
             <div class="pct">15%</div>
             <div class="faixa-info">
-              <div class="cond edit" data-key="cond-15">Em compras acima de R$ 300</div>
+              <div class="cond edit" data-key="cond-15">Em compras acima de R$300,00</div>
               <div class="valores">
                 <span class="desc" id="desc-15">Desconto: R$ —</span>
-                <span class="final" id="final-15">Final: R$ —</span>
+                <span class="final" id="final-15">Valor final do produto: R$ —</span>
               </div>
               <span class="tag" id="tag-15"></span>
             </div>
@@ -112,22 +109,24 @@
           <div class="faixa">
             <div class="pct">20%</div>
             <div class="faixa-info">
-              <div class="cond edit" data-key="cond-20">Em compras acima de R$ 1.000</div>
+              <div class="cond edit" data-key="cond-20">Em compras acima de R$1.000,00</div>
               <div class="valores">
                 <span class="desc" id="desc-20">Desconto: R$ —</span>
-                <span class="final" id="final-20">Final: R$ —</span>
+                <span class="final" id="final-20">Valor final do produto: R$ —</span>
               </div>
               <span class="tag" id="tag-20"></span>
             </div>
           </div>
 
-          <div class="barra-final edit" data-key="barra-final">Válido para toda a loja</div>
+          <div class="barra-final edit" data-key="barra-final">Promoção válida para toda a loja!</div>
         </div>
       </div>
 
     </div>
   </div>
 
+  <!-- A biblioteca do QR Code vem antes do script principal -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
