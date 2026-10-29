@@ -25,22 +25,20 @@
       </div>
     </div>
 
-    <!-- BASE DE DADOS CSV -->
-    <div class="campo">
-      <label>Base de Dados</label>
-      <div class="grupo-csv">
-        <label for="in-csv" class="btn-csv" id="lbl-csv">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="17 8 12 3 7 8"></polyline>
-            <line x1="12" y1="3" x2="12" y2="15"></line>
-          </svg>
-          <span id="txt-csv">Carregar CSV</span>
-        </label>
-        <input type="file" id="in-csv" accept=".csv" style="display: none;">
-        <button type="button" id="btn-substituir" class="btn-subst" style="display: none;">Trocar CSV</button>
-      </div>
+<!-- BASE DE DADOS NUVEM -->
+<div class="campo">
+  <label>Base de Dados</label>
+  <div class="grupo-csv">
+    <div class="btn-csv" id="lbl-csv">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="17 8 12 3 7 8"></polyline>
+        <line x1="12" y1="3" x2="12" y2="15"></line>
+      </svg>
+      <span id="txt-csv">Conectando à Nuvem...</span>
     </div>
+  </div>
+</div>
 
     <div class="acoes-barra">
       <button type="button" id="btn-imprimir">Imprimir / Salvar PDF</button>

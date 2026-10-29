@@ -1,3 +1,6 @@
+/* ============ LINK DA PLANILHA DO GOOGLE SHEETS ============ */
+const URL_GOOGLE_SHEETS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRevLhxFgtDJ68wC4_GpPgLBnPsaWQNYfM8a6Ioh7AKcpycoziL56wxyggBT4SSZ82r7oQZoloL-Qrq/pub?output=csv";
+
 /* ============ CONFIGURAÇÃO DAS FAIXAS ============ */
 const FAIXAS = [
   { pct: 10, min: 0, cond: 'Em qualquer compra (sem mínimo)' },
@@ -12,25 +15,28 @@ const inBusca = document.getElementById('in-busca');
 const listaSugestoes = document.getElementById('lista-sugestoes');
 const outProduto = document.getElementById('out-produto');
 const outDescricao = document.getElementById('out-descricao');
-const outPreco = document.getElementById('out-preco');
+const outPrecoOferta = document.getElementById('out-preco-oferta');
+const outPrecoOriginal = document.getElementById('out-preco-original');
 const outMelhor = document.getElementById('out-melhor');
 const outDestaque = document.getElementById('out-destaque');
 
-let precoAtual = 0;
-let baseProdutos = {}; // Dicionário por código normalizado
-let listaProdutosArray = []; // Array para busca por nome
+const lblCsv = document.getElementById('lbl-csv');
+const txtCsv = document.getElementById('txt-csv');
 
-/* Normalização avançada: remove acentos, cedilhas, caracteres especiais e converte para minúsculas */
+let precoAtual = 0;
+let baseProdutos = {};
+let listaProdutosArray = [];
+
+/* Normalização de texto */
 function normalizarTexto(str) {
   if (!str) return '';
   return String(str)
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, "");    // Remove símbolos especiais (mantém apenas letras, números e espaços)
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
 }
 
-/* Normalização de código de barras: remove zeros à esquerda e traços */
+/* Normalização do código de barras */
 function normalizarCodigo(codigo) {
   if (!codigo) return '';
   let limpo = String(codigo).trim().replace(/-/g, '');
@@ -47,31 +53,27 @@ function parsePreco(valor) {
   return (isNaN(n) || n <= 0) ? NaN : n;
 }
 
-/* ============ BANCO DE DADOS LOCAL VIA CSV ============ */
-const inputFileCsv = document.getElementById('in-csv');
-const lblCsv = document.getElementById('lbl-csv');
-const txtCsv = document.getElementById('txt-csv');
-const btnSubstituir = document.getElementById('btn-substituir');
-
+/* ============ PROCESSAMENTO DA NUVEM (GOOGLE SHEETS) ============ */
 function processarConteudoCsv(conteudo) {
   const linhas = conteudo.split(/\r\n|\n/);
   baseProdutos = {};
   listaProdutosArray = [];
   
   if (linhas.length === 0) return 0;
-  let cabecalho = linhas[0].split(';');
+
+  let separador = linhas[0].includes(';') ? ';' : ',';
+  let cabecalho = linhas[0].split(separador).map(c => c.trim().replace(/^"|"$/g, ''));
   
-  let idxCodigo = cabecalho.indexOf('"Código Barra Principal"');
-  if (idxCodigo === -1) idxCodigo = cabecalho.indexOf('Código Barra Principal');
-  if (idxCodigo === -1) idxCodigo = 1;
+  let idxCodigo = cabecalho.indexOf('Código Barra Principal');
+  if (idxCodigo === -1) idxCodigo = cabecalho.indexOf('Código de Barras');
+  if (idxCodigo === -1) idxCodigo = cabecalho.findIndex(c => c.toLowerCase().includes('barra'));
 
-  let idxDescricao = cabecalho.indexOf('"Descrição"');
-  if (idxDescricao === -1) idxDescricao = cabecalho.indexOf('Descrição');
-  if (idxDescricao === -1) idxDescricao = 3;
+  let idxDescricao = cabecalho.indexOf('Descrição');
+  if (idxDescricao === -1) idxDescricao = cabecalho.indexOf('Descrição Completa');
+  if (idxDescricao === -1) idxDescricao = cabecalho.findIndex(c => c.toLowerCase().includes('descri'));
 
-  let idxVenda = cabecalho.indexOf('"Venda"');
-  if (idxVenda === -1) idxVenda = cabecalho.indexOf('Venda');
-  if (idxVenda === -1) idxVenda = 51;
+  let idxVenda = cabecalho.indexOf('Venda');
+  if (idxVenda === -1) idxVenda = cabecalho.findIndex(c => c.trim().toLowerCase() === 'venda');
 
   let totalCarregado = 0;
 
@@ -79,11 +81,14 @@ function processarConteudoCsv(conteudo) {
     let linha = linhas[i].trim();
     if (!linha) continue;
     
-    let colunas = linha.split(';');
+    // Regex segura para separar respeitando campos com aspas e vírgulas internas
+    let colunas = linha.match(/(".*?"|[^";,]+)(?=\s*[,;]|\s*$)/g) || linha.split(separador);
+    colunas = colunas.map(c => c.trim().replace(/^"|"$/g, ''));
+
     if (colunas.length > Math.max(idxCodigo, idxDescricao, idxVenda)) {
-      let codigoBruto = colunas[idxCodigo].trim().replace(/"/g, '');
-      let descricao = colunas[idxDescricao].trim().replace(/"/g, '');
-      let venda = colunas[idxVenda].trim().replace(/"/g, '').replace(',', '.');
+      let codigoBruto = colunas[idxCodigo] || '';
+      let descricao = colunas[idxDescricao] || '';
+      let vendaRaw = colunas[idxVenda] || '0';
       
       let codigoNormalizado = normalizarCodigo(codigoBruto);
       
@@ -92,8 +97,8 @@ function processarConteudoCsv(conteudo) {
           codigoOriginal: codigoBruto,
           codigoNorm: codigoNormalizado,
           nome: descricao,
-          nomeNorm: normalizarTexto(descricao), // Versão limpa para busca instantânea
-          preco: venda
+          nomeNorm: normalizarTexto(descricao),
+          preco: vendaRaw
         };
         baseProdutos[codigoNormalizado] = item;
         listaProdutosArray.push(item);
@@ -104,45 +109,28 @@ function processarConteudoCsv(conteudo) {
   return totalCarregado;
 }
 
-if (inputFileCsv) {
-  inputFileCsv.addEventListener('change', function(e) {
-    const arquivo = e.target.files[0];
-    if (!arquivo) return;
+/* Função que busca automaticamente a planilha na nuvem */
+function carregarBaseNuvem() {
+  if (!URL_GOOGLE_SHEETS || URL_GOOGLE_SHEETS.includes('COLE_SEU_LINK')) {
+    if (txtCsv) txtCsv.textContent = 'Aguardando Link Google Sheets';
+    return;
+  }
 
-    const leitor = new FileReader();
-    leitor.onload = function(evento) {
-      const conteudo = evento.target.result;
+  if (txtCsv) txtCsv.textContent = 'Sincronizando Nuvem...';
+
+  fetch(URL_GOOGLE_SHEETS)
+    .then(resposta => resposta.text())
+    .then(conteudo => {
       const total = processarConteudoCsv(conteudo);
-
       if (lblCsv && txtCsv) {
         lblCsv.classList.add('carregado');
-        txtCsv.textContent = `✓ CSV Ativo (${total} itens)`;
+        txtCsv.textContent = `✓ Nuvem Ativa (${total} itens)`;
       }
-
-      if (btnSubstituir) {
-        btnSubstituir.style.display = 'inline-block';
-      }
-
-      if (inCodigo) inCodigo.focus();
-    };
-
-    leitor.readAsText(arquivo, 'ISO-8859-1');
-  });
-}
-
-if (btnSubstituir) {
-  btnSubstituir.addEventListener('click', function() {
-    baseProdutos = {};
-    listaProdutosArray = [];
-    if (lblCsv && txtCsv) {
-      lblCsv.classList.remove('carregado');
-      txtCsv.textContent = 'Carregar CSV';
-    }
-    btnSubstituir.style.display = 'none';
-    if (inputFileCsv) inputFileCsv.value = '';
-    
-    alert('Base CSV removida. Pode selecionar um novo ficheiro.');
-  });
+    })
+    .catch(erro => {
+      console.error('Erro ao conectar com Google Sheets:', erro);
+      if (txtCsv) txtCsv.textContent = 'Erro ao Sincronizar';
+    });
 }
 
 /* ============ SELECIONAR PRODUTO ============ */
@@ -175,27 +163,17 @@ if (inCodigo) {
   });
 }
 
-/* ============ PESQUISA POR NOME INTELIGENTE E SEM RESTRIÇÕES ============ */
-function normalizarTexto(str) {
-  if (!str) return '';
-  return String(str)
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "") // Remove acentos
-    .toLowerCase(); // Mantém espaços, números, letras e símbolos para não quebrar buscas parciais
-}
-
+/* ============ PESQUISA POR NOME INTELIGENTE ============ */
 if (inBusca && listaSugestoes) {
   inBusca.addEventListener('input', function() {
     let termoBruto = inBusca.value.trim();
     listaSugestoes.innerHTML = '';
 
-    // Basta 1 único caractere para já começar a listar os produtos
     if (termoBruto.length < 1) {
       listaSugestoes.style.display = 'none';
       return;
     }
 
-    // Normaliza o termo digitado
     let termosBusca = normalizarTexto(termoBruto).split(/\s+/).filter(t => t.length > 0);
 
     if (termosBusca.length === 0) {
@@ -203,36 +181,38 @@ if (inBusca && listaSugestoes) {
       return;
     }
 
-    // Busca produtos onde CADA pedaço digitado esteja presente no nome
     let resultados = listaProdutosArray.filter(p => {
       let nomeTratado = normalizarTexto(p.nome);
       return termosBusca.every(termo => nomeTratado.includes(termo));
-    }).slice(0, 30); // Aumentado para exibir até 30 resultados de uma vez
+    }).slice(0, 30);
 
     if (resultados.length === 0) {
       listaSugestoes.style.display = 'none';
       return;
     }
 
-    resultados.forEach(prod => {
-      let div = document.createElement('div');
-      div.className = 'sugestao-item';
-      div.innerHTML = `<strong>${prod.nome}</strong><span class="sug-codigo">Cód: ${prod.codigoOriginal} | R$ ${prod.preco}</span>`;
-      
-      div.addEventListener('click', function() {
-        carregarProdutoNaTela(prod);
-        inBusca.value = '';
-        listaSugestoes.style.display = 'none';
-        if (inCodigo) inCodigo.focus();
-      });
+resultados.forEach(prod => {
+  let div = document.createElement('div');
+  div.className = 'sugestao-item';
+  
+  let pNum = parsePreco(prod.preco);
+  let precoTexto = (!isNaN(pNum) && pNum > 0) ? brl.format(pNum) : '0,00';
 
-      listaSugestoes.appendChild(div);
-    });
+  div.innerHTML = `<strong>${prod.nome}</strong><span class="sug-codigo">Cód: ${prod.codigoOriginal} | ${precoTexto}</span>`;
+  
+  div.addEventListener('click', function() {
+    carregarProdutoNaTela(prod);
+    inBusca.value = '';
+    listaSugestoes.style.display = 'none';
+    if (inCodigo) inCodigo.focus();
+  });
+
+  listaSugestoes.appendChild(div);
+});
 
     listaSugestoes.style.display = 'block';
   });
 
-  // Fecha o menu ao clicar fora
   document.addEventListener('click', function(e) {
     if (!inBusca.contains(e.target) && !listaSugestoes.contains(e.target)) {
       listaSugestoes.style.display = 'none';
@@ -255,7 +235,7 @@ function salvarDadosTela() {
 }
 
 function carregarDados() {
-  // Limpa o cache antigo que estava travando a atualização dos textos
+  // Garante a renovação dos seletores visuais
   localStorage.removeItem('amipet_text_rot-melhor');
   localStorage.removeItem('amipet_text_txt-selo');
 
@@ -282,19 +262,15 @@ function calcular() {
   const preco = precoAtual;
   const valido = !isNaN(preco) && preco > 0;
 
-  const outPrecoOferta = document.getElementById('out-preco-oferta');
-  const outPrecoOriginal = document.getElementById('out-preco-original');
-
   if (valido) {
     const descontoMaximo = (preco * 20) / 100;
     const finalMaximo = preco - descontoMaximo;
     
-    // O preço grande em destaque agora é o com 20% de desconto
     if (outPrecoOferta) outPrecoOferta.textContent = brl.format(finalMaximo);
     if (outPrecoOriginal) outPrecoOriginal.textContent = 'Preço original: ' + brl.format(preco);
   } else {
     if (outPrecoOferta) outPrecoOferta.textContent = 'R$ 0,00';
-    if (outPrecoOriginal) outPrecoOriginal.textContent = 'Preço original: ';
+    if (outPrecoOriginal) outPrecoOriginal.textContent = 'Preço original: R$ —';
   }
 
   FAIXAS.forEach(function (f) {
@@ -350,17 +326,21 @@ function calcular() {
   salvarDadosTela();
 }
 
+document.querySelectorAll('.edit').forEach(el => {
+  el.addEventListener('input', salvarDadosTela);
+});
+
 /* ============ BOTÃO APAGAR INFORMAÇÕES ============ */
 const btnReset = document.getElementById('btn-reset');
 if (btnReset) {
   btnReset.addEventListener('click', function () {
-    if (confirm('Deseja limpar o produto atual da tela? (A sua base CSV continuará ativa na memória).')) {
+    if (confirm('Deseja limpar o produto atual da tela?')) {
       localStorage.removeItem('amipet_out_produto');
       localStorage.removeItem('amipet_out_descricao');
       localStorage.removeItem('amipet_preco_atual');
       
-      outProduto.textContent = "Nome do produto";
-      outDescricao.textContent = "Código do produto";
+      outProduto.textContent = "Informe o nome do produto";
+      outDescricao.textContent = "Informe o código do produto";
       precoAtual = 0;
       calcular();
       
@@ -401,6 +381,7 @@ document.addEventListener('DOMContentLoaded', function () {
   carregarDados();
   calcular();
   gerarQRCode();
+  carregarBaseNuvem(); // Sincroniza com a nuvem automaticamente
   if (inCodigo) {
     inCodigo.focus();
   }
