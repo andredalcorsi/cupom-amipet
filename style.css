@@ -727,3 +727,38 @@ body {
   font-weight: 700;
   color: var(--cinza);
 }
+
+/* ============ BOTÃO DE EDITAR NOME DO PRODUTO ============ */
+.btn-editar-nome {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid #D5D5D0;
+  background: #F4F6F8;
+  color: var(--cinza);
+  transition: all 0.2s ease;
+  height: 38px;
+  white-space: nowrap;
+}
+
+.btn-editar-nome:not(:disabled) {
+  background: var(--azul);
+  border-color: var(--azul);
+  color: #fff;
+}
+
+.btn-editar-nome:not(:disabled):hover {
+  background: #1D5C87;
+  border-color: #1D5C87;
+}
+
+.btn-editar-nome:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  background: #E9ECEF;
+  border-color: #DEE2E6;
+  color: #6C757D;
+}

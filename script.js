@@ -386,3 +386,72 @@ document.addEventListener('DOMContentLoaded', function () {
     inCodigo.focus();
   }
 });
+
+/* ============ REFERÊNCIA DO BOTÃO DE EDIÇÃO ============ */
+const btnEditarNome = document.getElementById('btn-editar-nome');
+
+/* Atualiza o estado do botão de editar nome */
+function atualizarEstadoBotaoEdicao() {
+  if (!btnEditarNome) return;
+  const nomeAtual = outProduto ? outProduto.textContent.trim() : "";
+  const temProdutoCarregado = nomeAtual !== "" && nomeAtual !== "Nome do produto" && precoAtual > 0;
+  
+  if (temProdutoCarregado) {
+    btnEditarNome.removeAttribute('disabled');
+  } else {
+    btnEditarNome.setAttribute('disabled', 'true');
+    if (outProduto) outProduto.removeAttribute('contenteditable');
+    if (btnEditarNome) btnEditarNome.textContent = 'Editar Nome';
+  }
+}
+
+/* ============ SELECIONAR PRODUTO ============ */
+function carregarProdutoNaTela(prod) {
+  outProduto.textContent = prod.nome;
+  outDescricao.textContent = "Cód: " + prod.codigoOriginal;
+  
+  precoAtual = parsePreco(prod.preco);
+  
+  calcular();
+  salvarDadosTela();
+  atualizarEstadoBotaoEdicao(); // Habilita o botão de edição
+}
+
+/* ============ AÇÃO DO BOTÃO EDITAR NOME ============ */
+if (btnEditarNome) {
+  btnEditarNome.addEventListener('click', function() {
+    if (btnEditarNome.hasAttribute('disabled')) return;
+    
+    const estaEditavel = outProduto.getAttribute('contenteditable') === 'true';
+    
+    if (!estaEditavel) {
+      outProduto.setAttribute('contenteditable', 'true');
+      outProduto.focus();
+      // Seleciona o texto para facilitar a edição rápida
+      const range = document.createRange();
+      range.selectNodeContents(outProduto);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      
+      btnEditarNome.textContent = 'Concluir Edição';
+      btnEditarNome.style.background = '#137333'; // Verde confirmação
+      btnEditarNome.style.borderColor = '#137333';
+      btnEditarNome.style.color = '#fff';
+    } else {
+      outProduto.removeAttribute('contenteditable');
+      btnEditarNome.textContent = 'Editar Nome';
+      btnEditarNome.style.background = '';
+      btnEditarNome.style.borderColor = '';
+      btnEditarNome.style.color = '';
+      salvarDadosTela();
+    }
+  });
+}
+
+// Salva e mantém as alterações do nome editado manualmente no localStorage
+if (outProduto) {
+  outProduto.addEventListener('input', function() {
+    salvarDadosTela();
+  });
+}
