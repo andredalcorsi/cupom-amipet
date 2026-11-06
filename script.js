@@ -16,9 +16,6 @@ const listaSugestoes = document.getElementById('lista-sugestoes');
 const outProduto = document.getElementById('out-produto');
 const outDescricao = document.getElementById('out-descricao');
 const outPrecoOferta = document.getElementById('out-preco-oferta');
-const outPrecoOriginal = document.getElementById('out-preco-original');
-const outMelhor = document.getElementById('out-melhor');
-const outDestaque = document.getElementById('out-destaque');
 
 const lblCsv = document.getElementById('lbl-csv');
 const txtCsv = document.getElementById('txt-csv');
@@ -81,7 +78,6 @@ function processarConteudoCsv(conteudo) {
     let linha = linhas[i].trim();
     if (!linha) continue;
     
-    // Regex segura para separar respeitando campos com aspas e vírgulas internas
     let colunas = linha.match(/(".*?"|[^";,]+)(?=\s*[,;]|\s*$)/g) || linha.split(separador);
     colunas = colunas.map(c => c.trim().replace(/^"|"$/g, ''));
 
@@ -142,6 +138,7 @@ function carregarProdutoNaTela(prod) {
   
   calcular();
   salvarDadosTela();
+  atualizarEstadoBotaoEdicao();
 }
 
 /* ============ BIPAGEM VIA CÓDIGO DE BARRAS (ENTER) ============ */
@@ -191,24 +188,24 @@ if (inBusca && listaSugestoes) {
       return;
     }
 
-resultados.forEach(prod => {
-  let div = document.createElement('div');
-  div.className = 'sugestao-item';
-  
-  let pNum = parsePreco(prod.preco);
-  let precoTexto = (!isNaN(pNum) && pNum > 0) ? brl.format(pNum) : '0,00';
+    resultados.forEach(prod => {
+      let div = document.createElement('div');
+      div.className = 'sugestao-item';
+      
+      let pNum = parsePreco(prod.preco);
+      let precoTexto = (!isNaN(pNum) && pNum > 0) ? brl.format(pNum) : '0,00';
 
-  div.innerHTML = `<strong>${prod.nome}</strong><span class="sug-codigo">Cód: ${prod.codigoOriginal} | ${precoTexto}</span>`;
-  
-  div.addEventListener('click', function() {
-    carregarProdutoNaTela(prod);
-    inBusca.value = '';
-    listaSugestoes.style.display = 'none';
-    if (inCodigo) inCodigo.focus();
-  });
+      div.innerHTML = `<strong>${prod.nome}</strong><span class="sug-codigo">Cód: ${prod.codigoOriginal} | ${precoTexto}</span>`;
+      
+      div.addEventListener('click', function() {
+        carregarProdutoNaTela(prod);
+        inBusca.value = '';
+        listaSugestoes.style.display = 'none';
+        if (inCodigo) inCodigo.focus();
+      });
 
-  listaSugestoes.appendChild(div);
-});
+      listaSugestoes.appendChild(div);
+    });
 
     listaSugestoes.style.display = 'block';
   });
@@ -235,7 +232,6 @@ function salvarDadosTela() {
 }
 
 function carregarDados() {
-  // Garante a renovação dos seletores visuais
   localStorage.removeItem('amipet_text_rot-melhor');
   localStorage.removeItem('amipet_text_txt-selo');
 
@@ -263,65 +259,24 @@ function calcular() {
   const valido = !isNaN(preco) && preco > 0;
 
   if (valido) {
-    const descontoMaximo = (preco * 20) / 100;
-    const finalMaximo = preco - descontoMaximo;
-    
-    if (outPrecoOferta) outPrecoOferta.textContent = brl.format(finalMaximo);
-    if (outPrecoOriginal) outPrecoOriginal.textContent = 'Preço original: ' + brl.format(preco);
+    if (outPrecoOferta) outPrecoOferta.textContent = brl.format(preco);
   } else {
     if (outPrecoOferta) outPrecoOferta.textContent = 'R$ 0,00';
-    if (outPrecoOriginal) outPrecoOriginal.textContent = 'Preço original: R$ —';
   }
 
   FAIXAS.forEach(function (f) {
-    const elDesc = document.getElementById('desc-' + f.pct);
     const elFinal = document.getElementById('final-' + f.pct);
-    const elTag = document.getElementById('tag-' + f.pct);
-
-    if (elFinal) elFinal.classList.remove('aplicavel');
 
     if (!valido) {
-      if (elDesc) elDesc.textContent = 'Desconto: —';
       if (elFinal) elFinal.textContent = 'Valor final do produto: —';
-      if (elTag) {
-        elTag.textContent = '';
-        elTag.className = 'tag';
-      }
       return;
     }
 
     const desconto = (preco * f.pct) / 100;
     const final = preco - desconto;
 
-    if (elDesc) elDesc.textContent = 'Desconto: ' + brl.format(desconto);
     if (elFinal) elFinal.textContent = 'Valor final do produto: ' + brl.format(final);
-
-    const alcancou = preco >= f.min;
-
-    if (alcancou) {
-      if (elTag) {
-        elTag.textContent = (f.pct === 10) ? 'Válido para qualquer compra' : 'Este item já se aplica';
-        elTag.className = 'tag positivo';
-      }
-      if (elFinal) elFinal.classList.add('aplicavel');
-    } else {
-      const falta = f.min - preco;
-      if (elTag) {
-        elTag.textContent = 'Faltam ' + brl.format(falta) + ' para esta faixa';
-        elTag.className = 'tag alerta';
-      }
-    }
   });
-
-  if (valido) {
-    const descontoMaximo = (preco * 20) / 100;
-    const finalMaximo = preco - descontoMaximo;
-    if (outDestaque) outDestaque.textContent = brl.format(finalMaximo);
-    if (outMelhor) outMelhor.textContent = 'Com 20% de desconto: ' + brl.format(finalMaximo);
-  } else {
-    if (outDestaque) outDestaque.textContent = '—';
-    if (outMelhor) outMelhor.textContent = 'Informe o preço para calcular';
-  }
 
   salvarDadosTela();
 }
@@ -339,10 +294,11 @@ if (btnReset) {
       localStorage.removeItem('amipet_out_descricao');
       localStorage.removeItem('amipet_preco_atual');
       
-      outProduto.textContent = "Informe o nome do produto";
-      outDescricao.textContent = "Informe o código do produto";
+      outProduto.textContent = "Nome do produto";
+      outDescricao.textContent = "Código do produto";
       precoAtual = 0;
       calcular();
+      atualizarEstadoBotaoEdicao();
       
       if (inCodigo) {
         inCodigo.value = '';
@@ -376,21 +332,9 @@ function gerarQRCode() {
   }
 }
 
-/* ============ INICIALIZAÇÃO ============ */
-document.addEventListener('DOMContentLoaded', function () {
-  carregarDados();
-  calcular();
-  gerarQRCode();
-  carregarBaseNuvem(); // Sincroniza com a nuvem automaticamente
-  if (inCodigo) {
-    inCodigo.focus();
-  }
-});
-
-/* ============ REFERÊNCIA DO BOTÃO DE EDIÇÃO ============ */
+/* ============ REFERÊNCIA E AÇÕES DO BOTÃO DE EDIÇÃO ============ */
 const btnEditarNome = document.getElementById('btn-editar-nome');
 
-/* Atualiza o estado do botão de editar nome */
 function atualizarEstadoBotaoEdicao() {
   if (!btnEditarNome) return;
   const nomeAtual = outProduto ? outProduto.textContent.trim() : "";
@@ -405,19 +349,6 @@ function atualizarEstadoBotaoEdicao() {
   }
 }
 
-/* ============ SELECIONAR PRODUTO ============ */
-function carregarProdutoNaTela(prod) {
-  outProduto.textContent = prod.nome;
-  outDescricao.textContent = "Cód: " + prod.codigoOriginal;
-  
-  precoAtual = parsePreco(prod.preco);
-  
-  calcular();
-  salvarDadosTela();
-  atualizarEstadoBotaoEdicao(); // Habilita o botão de edição
-}
-
-/* ============ AÇÃO DO BOTÃO EDITAR NOME ============ */
 if (btnEditarNome) {
   btnEditarNome.addEventListener('click', function() {
     if (btnEditarNome.hasAttribute('disabled')) return;
@@ -427,7 +358,6 @@ if (btnEditarNome) {
     if (!estaEditavel) {
       outProduto.setAttribute('contenteditable', 'true');
       outProduto.focus();
-      // Seleciona o texto para facilitar a edição rápida
       const range = document.createRange();
       range.selectNodeContents(outProduto);
       const sel = window.getSelection();
@@ -435,7 +365,7 @@ if (btnEditarNome) {
       sel.addRange(range);
       
       btnEditarNome.textContent = 'Concluir Edição';
-      btnEditarNome.style.background = '#137333'; // Verde confirmação
+      btnEditarNome.style.background = '#137333';
       btnEditarNome.style.borderColor = '#137333';
       btnEditarNome.style.color = '#fff';
     } else {
@@ -449,9 +379,20 @@ if (btnEditarNome) {
   });
 }
 
-// Salva e mantém as alterações do nome editado manualmente no localStorage
 if (outProduto) {
   outProduto.addEventListener('input', function() {
     salvarDadosTela();
   });
 }
+
+/* ============ INICIALIZAÇÃO ============ */
+document.addEventListener('DOMContentLoaded', function () {
+  carregarDados();
+  calcular();
+  gerarQRCode();
+  carregarBaseNuvem();
+  atualizarEstadoBotaoEdicao();
+  if (inCodigo) {
+    inCodigo.focus();
+  }
+});

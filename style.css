@@ -63,13 +63,12 @@ body {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 12px 24px; /* Aumentámos o espaçamento horizontal entre os blocos para dar respiro */
+  gap: 12px 24px;
   padding: 12px 20px;
   background: #fff;
   box-shadow: 0 2px 12px rgba(30, 42, 46, .12);
 }
 
-/* Empurra especificamente o bloco da Base de Dados mais para a direita */
 #barra .campo:last-child {
   margin-left: auto; 
 }
@@ -87,9 +86,10 @@ body {
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--azul);
-  margin-bottom: 2px; /* Garante distância uniforme para o input/botão */
+  margin-bottom: 2px;
   white-space: nowrap;
 }
+
 #in-codigo {
   font-family: inherit;
   font-size: 14px;
@@ -121,8 +121,7 @@ body {
 .btn-csv {
   display: inline-flex;
   align-items: center;
-  justify-content: center; /* Centraliza o texto já que o ícone saiu */
-  gap: 0;
+  justify-content: center;
   font-family: inherit;
   font-size: 13px;
   font-weight: 600;
@@ -131,7 +130,7 @@ body {
   border: 1px solid #D1D5DB;
   border-radius: 6px;
   padding: 8px 14px;
-  cursor: default; /* <-- Impede o mouse de virar a mãozinha de clique */
+  cursor: default;
   user-select: none;
   height: 38px;
   white-space: nowrap;
@@ -141,27 +140,7 @@ body {
   background: #E6F4EA !important;
   color: #137333 !important;
   border-color: #81C995 !important;
-  cursor: default; /* <-- Mantém o cursor padrão mesmo quando sincronizado */
-}
-
-.btn-subst {
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 600;
-  color: #C5221F;
-  background: #FCE8E6;
-  border: 1px solid #FAD2CF;
-  border-radius: 6px;
-  padding: 8px 12px;
-  cursor: pointer;
-  height: 38px;
-  transition: all .2s ease;
-  white-space: nowrap;
-}
-
-.btn-subst:hover {
-  background: #FAD2CF;
-  border-color: #F19C96;
+  cursor: default;
 }
 
 /* ---------- CAMPO DE PESQUISA E DROPDOWN ---------- */
@@ -234,7 +213,7 @@ body {
   margin-top: 2px;
 }
 
-/* ---------- ACOES DA BARRA ---------- */
+/* ---------- AÇÕES DA BARRA ---------- */
 .acoes-barra {
   margin-left: auto;
   display: flex;
@@ -271,22 +250,22 @@ body {
   background: #1D5C87;
 }
 
-/* ---------- PALCO / FOLHA ---------- */
+/* ---------- PALCO / FOLHA (CENTRALIZADO) ---------- */
 #palco {
   padding: 100px 20px 40px;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  overflow-x: auto;
+  align-items: center;
+  min-height: calc(100vh - 70px);
 }
 
 #folha {
   width: 297mm;
   height: 210mm;
-  padding: 12mm 14mm;
+  padding: 12mm 10mm;
   background: var(--fundo);
   display: flex;
-  gap: 14mm;
+  gap: 10mm;
   overflow: hidden;
   box-shadow: 0 10px 34px rgba(30, 42, 46, .16);
   flex-shrink: 0;
@@ -294,7 +273,7 @@ body {
 
 /* ---------- DISTRIBUIÇÃO DAS COLUNAS ---------- */
 .col-esq {
-  flex: 0 0 52%;
+  flex: 0 0 41%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -305,7 +284,7 @@ body {
   display: flex;
 }
 
-/* ---------- LOGO AUMENTADA ---------- */
+/* ---------- LOGO ---------- */
 .logo-area {
   display: flex;
   align-items: flex-start;
@@ -313,8 +292,8 @@ body {
 
 #logo-img {
   display: block;
-  max-height: 30mm;
-  max-width: 85mm;
+  max-height: 28mm;
+  max-width: 75mm;
   object-fit: contain;
   object-position: left top;
 }
@@ -327,7 +306,7 @@ body {
 .headline h1 {
   margin: 0;
   font-family: 'JandaManateeSolid', sans-serif;
-  font-size: 46px;
+  font-size: 40px;
   font-weight: normal;
   line-height: 1.05;
   letter-spacing: -.02em;
@@ -336,7 +315,7 @@ body {
 
 .headline .sub {
   margin: 2px 0 0;
-  font-size: 26px;
+  font-size: 23px;
   font-weight: 700;
   line-height: 1.1;
   color: var(--azul);
@@ -344,62 +323,8 @@ body {
 
 .apoio {
   margin: 4px 0 0;
-  font-size: 13.5px;
+  font-size: 13px;
   color: var(--cinza);
-}
-
-/* ---------- BLOCO DO PRODUTO ---------- */
-.bloco-produto {
-  margin-top: 2mm;
-}
-
-#out-produto {
-  margin: 0;
-  font-size: 21px;
-  font-weight: 700;
-  line-height: 1.25;
-  color: var(--carvao);
-  max-width: 95%;
-}
-
-#out-descricao {
-  margin: 4px 0 0;
-  font-size: 15px;
-  line-height: 1.5;
-  color: rgba(30, 42, 46, .85);
-  max-width: 55ch;
-}
-
-.linha-preco {
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-#out-preco {
-  font-size: 70px;
-  font-weight: 800;
-  line-height: 1;
-  color: var(--azul);
-}
-
-.selo {
-  background: var(--amarelo);
-  color: var(--carvao);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .08em;
-  padding: 5px 10px;
-  border-radius: 4px;
-  text-transform: uppercase;
-}
-
-#out-melhor {
-  margin: 4px 0 0;
-  font-size: 13.5px;
-  font-weight: 700;
-  color: var(--verde);
 }
 
 /* ---------- RODAPÉ ---------- */
@@ -410,14 +335,18 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  font-size: 11px;
+  font-size: 10px;
   color: var(--cinza);
 }
 
+.contato-texto {
+  white-space: nowrap;
+}
+
 .rodape .rot {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
-  letter-spacing: .12em;
+  letter-spacing: .08em;
   text-transform: uppercase;
   color: var(--verde);
   margin-right: 4px;
@@ -427,7 +356,7 @@ body {
 .card {
   width: 100%;
   height: 100%;
-  padding: 20px 24px;
+  padding: 14px 18px;
   background: #F8F9FA;
   border-radius: 12px;
   border: 1px solid var(--linha);
@@ -439,49 +368,86 @@ body {
   print-color-adjust: exact;
 }
 
+/* ---------- BLOCO DE PRODUTO EM DESTAQUE NA COLUNA DIREITA ---------- */
+.destaque-produto {
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: rgba(66, 131, 145, .08);
+}
+
+#out-produto {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--carvao);
+}
+
+#out-descricao {
+  margin: 4px 0 0;
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: rgba(30, 42, 46, .85);
+}
+
+.linha-preco {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#out-preco-oferta {
+  font-size: 42px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--azul);
+}
+
+.selo-off {
+  background: var(--amarelo);
+  color: var(--carvao);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* ---------- SEÇÃO DE TÍTULO DE CONDIÇÕES DE DESCONTO (ESPAÇADO DO PRODUTO E ACIMA DE TODAS AS FAIXAS) ---------- */
+.secao-condicoes {
+  margin-top: 70px; 
+  margin-bottom: -30px;
+  padding: 8px 12px;
+  background: #ffffff;
+  border-left: 4px solid var(--verde);
+  border-radius: 0 6px 6px 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
 .card h3 {
   margin: 0;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 800;
-  letter-spacing: .10em;
+  letter-spacing: .08em;
   text-transform: uppercase;
   color: var(--verde);
 }
 
 .card-sub {
-  margin: 2px 0 10px 0;
-  font-size: 13px;
+  font-size: 11px;
   color: var(--cinza);
 }
 
-.destaque {
-  padding: 14px 16px;
-  border-radius: 8px;
-  background: rgba(66, 131, 145, .08);
-  margin-bottom: 6px;
-}
-
-.rot-melhor {
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--cinza);
-}
-
-#out-destaque {
-  margin-top: 3px;
-  font-size: 32px;
-  font-weight: 800;
-  color: var(--azul);
-}
-
+/* ---------- FAIXAS DE DESCONTO ---------- */
 .faixa {
   flex: 1;
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 12px 0;
+  padding: 6px 0;
   border-bottom: 1px solid var(--linha);
 }
 
@@ -490,22 +456,22 @@ body {
 }
 
 .pct {
-  font-size: 38px;
+  font-size: 30px;
   font-weight: 800;
   line-height: 1;
   color: var(--verde);
-  min-width: 75px;
+  min-width: 65px;
 }
 
 .faixa-info {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
 }
 
 .cond {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--carvao);
 }
@@ -513,50 +479,22 @@ body {
 .valores {
   display: flex;
   flex-direction: column;
-  gap: 7px;
-}
-
-.desc {
-  font-size: 18px;
-  color: var(--verde);
+  gap: 4px;
 }
 
 .final {
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 700;
-  color: #ff0000;;
-}
-
-.final.aplicavel {
   color: #ff0000;
 }
 
-.tag {
-  display: inline-block;
-  margin-top: 3px;
-  font-size: 12px;
-  padding: 3px 8px;
-  border-radius: 4px;
-  font-weight: 600;
-}
-
-.tag.positivo {
-  color: var(--verde);
-  background: rgba(66, 131, 145, .10);
-}
-
-.tag.alerta {
-  color: var(--azul);
-  background: rgba(35, 111, 161, .10);
-}
-
 .barra-final {
-  margin-top: 8px;
-  padding: 12px;
+  margin-top: 6px;
+  padding: 9px;
   border-radius: 8px;
   background: var(--azul);
   color: #fff;
-  font-size: 14.5px;
+  font-size: 13.5px;
   font-weight: 700;
   text-align: center;
   letter-spacing: .04em;
@@ -572,7 +510,12 @@ body {
    REGRAS DE RESPONSIVIDADE PARA DIFERENTES RESOLUÇÕES E TELAS
    ============================================================ */
 
-/* Notebooks médios e Tablets Horizontais (<= 1200px) */
+@media screen and (max-width: 1400px) {
+  #palco {
+    padding: 90px 15px 30px;
+  }
+}
+
 @media screen and (max-width: 1200px) {
   #barra {
     position: relative;
@@ -582,9 +525,15 @@ body {
   #palco {
     padding: 20px 10px 40px;
   }
+  
+  #folha {
+    width: 100%;
+    max-width: 297mm;
+    height: auto;
+    min-height: 210mm;
+  }
 }
 
-/* Tablets Verticais e Telas Médias (<= 992px) */
 @media screen and (max-width: 992px) {
   #barra .campo {
     flex: 1 1 auto;
@@ -603,9 +552,27 @@ body {
     width: 100%;
     justify-content: flex-end;
   }
+
+  #folha {
+    flex-direction: column;
+    height: auto;
+    gap: 20px;
+  }
+
+  .col-esq {
+    flex: none;
+    width: 100%;
+  }
+
+  .col-dir {
+    width: 100%;
+  }
+  
+  .card {
+    height: auto;
+  }
 }
 
-/* Smartphones Grandes e Médios (<= 768px) */
 @media screen and (max-width: 768px) {
   #barra {
     flex-direction: column;
@@ -621,14 +588,12 @@ body {
     flex: 1;
   }
 
-  /* Ajusta o contêiner do palco para permitir rolagem horizontal suave da folha A4 */
   #palco {
     justify-content: flex-start;
     padding: 15px;
   }
 }
 
-/* Smartphones Pequenos (<= 480px) */
 @media screen and (max-width: 480px) {
   #barra {
     padding: 10px;
@@ -638,7 +603,7 @@ body {
     width: 100%;
   }
 
-  .btn-csv, .btn-subst {
+  .btn-csv {
     width: 100%;
     justify-content: center;
   }
@@ -648,36 +613,48 @@ body {
   }
 }
 
-/* ---------- REGRAS DE IMPRESSÃO (A4 PAISAGEM INTACTO) ---------- */
+/* ---------- REGRAS DE IMPRESSÃO (A4 PAISAGEM CENTRALIZADO) ---------- */
 @page {
   size: A4 landscape;
   margin: 0;
 }
 
 @media print {
+  html, body {
+    width: 297mm;
+    height: 210mm;
+    background: #fff !important;
+  }
+
   #barra {
     display: none !important;
   }
 
   #palco {
-    padding: 0;
-    display: block;
-    background: #fff;
-    overflow: visible;
-  }
-
-  body {
-    background: #fff;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 297mm;
+    height: 210mm;
+    background: #fff !important;
+    overflow: hidden;
   }
 
   #folha {
     width: 297mm;
     height: 210mm;
-    margin: 0;
-    box-shadow: none;
-    border: none;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
     page-break-after: avoid;
     break-after: avoid;
+    flex-direction: row;
+    padding: 12mm 10mm !important;
   }
 
   .edit[contenteditable="true"] {
@@ -685,47 +662,13 @@ body {
   }
 
   .card,
-  .selo,
+  .selo-off,
   .barra-final,
-  .destaque,
-  .tag {
+  .destaque-produto,
+  .secao-condicoes {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
-}
-
-/* ---------- BLOCO DE PREÇOS INVERTIDO (OFERTA EM DESTAQUE) ---------- */
-.linha-preco {
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-#out-preco-oferta {
-  font-size: 70px;
-  font-weight: 800;
-  line-height: 1;
-  color: var(--azul);
-}
-
-.selo-off {
-  background: var(--amarelo);
-  color: var(--carvao);
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  padding: 6px 12px;
-  border-radius: 6px;
-  text-transform: uppercase;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.preco-original {
-  margin-top: 6px;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--cinza);
 }
 
 /* ============ BOTÃO DE EDITAR NOME DO PRODUTO ============ */
