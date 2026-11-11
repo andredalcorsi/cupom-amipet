@@ -8,6 +8,7 @@ const FAIXAS = [
   { pct: 20, min: 1000, cond: 'Em compras acima de R$ 1.000' }
 ];
 
+/* ============ DEFININDO DOM ============ */
 const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
 const inCodigo = document.getElementById('in-codigo');
@@ -105,7 +106,6 @@ function processarConteudoCsv(conteudo) {
   return totalCarregado;
 }
 
-/* Função que busca automaticamente a planilha na nuvem */
 function carregarBaseNuvem() {
   if (!URL_GOOGLE_SHEETS || URL_GOOGLE_SHEETS.includes('COLE_SEU_LINK')) {
     if (txtCsv) txtCsv.textContent = 'Aguardando Link Google Sheets';
@@ -117,7 +117,7 @@ function carregarBaseNuvem() {
   fetch(URL_GOOGLE_SHEETS)
     .then(resposta => resposta.text())
     .then(conteudo => {
-      const total = processarConteudoCsv(conteudo);
+      processarConteudoCsv(conteudo);
       if (lblCsv && txtCsv) {
         lblCsv.classList.add('carregado');
         txtCsv.textContent = `Sincronizado`;
@@ -129,7 +129,6 @@ function carregarBaseNuvem() {
     });
 }
 
-/* ============ SELECIONAR PRODUTO ============ */
 function carregarProdutoNaTela(prod) {
   outProduto.textContent = prod.nome;
   outDescricao.textContent = "Cód: " + prod.codigoOriginal;
@@ -141,7 +140,6 @@ function carregarProdutoNaTela(prod) {
   atualizarEstadoBotaoEdicao();
 }
 
-/* ============ BIPAGEM VIA CÓDIGO DE BARRAS (ENTER) ============ */
 if (inCodigo) {
   inCodigo.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') {
@@ -160,7 +158,6 @@ if (inCodigo) {
   });
 }
 
-/* ============ PESQUISA POR NOME INTELIGENTE ============ */
 if (inBusca && listaSugestoes) {
   inBusca.addEventListener('input', function() {
     let termoBruto = inBusca.value.trim();
@@ -217,7 +214,7 @@ if (inBusca && listaSugestoes) {
   });
 }
 
-/* ============ LOCALSTORAGE ============ */
+/* ============ LOCALSTORAGE E EDIÇÃO GLOBAL ============ */
 function salvarDadosTela() {
   localStorage.setItem('amipet_out_produto', outProduto.textContent);
   localStorage.setItem('amipet_out_descricao', outDescricao.textContent);
@@ -232,9 +229,6 @@ function salvarDadosTela() {
 }
 
 function carregarDados() {
-  localStorage.removeItem('amipet_text_rot-melhor');
-  localStorage.removeItem('amipet_text_txt-selo');
-
   if (localStorage.getItem('amipet_out_produto')) {
     outProduto.textContent = localStorage.getItem('amipet_out_produto');
   }
@@ -253,7 +247,6 @@ function carregarDados() {
   });
 }
 
-/* ============ CÁLCULO PRINCIPAL ============ */
 function calcular() {
   const preco = precoAtual;
   const valido = !isNaN(preco) && preco > 0;
@@ -268,14 +261,14 @@ function calcular() {
     const elFinal = document.getElementById('final-' + f.pct);
 
     if (!valido) {
-      if (elFinal) elFinal.textContent = 'Valor final do produto: —';
+      if (elFinal) elFinal.textContent = 'R$ —';
       return;
     }
 
     const desconto = (preco * f.pct) / 100;
     const final = preco - desconto;
 
-    if (elFinal) elFinal.textContent = 'Valor final do produto: ' + brl.format(final);
+    if (elFinal) elFinal.textContent = brl.format(final);
   });
 
   salvarDadosTela();
@@ -285,7 +278,6 @@ document.querySelectorAll('.edit').forEach(el => {
   el.addEventListener('input', salvarDadosTela);
 });
 
-/* ============ BOTÃO APAGAR INFORMAÇÕES ============ */
 const btnReset = document.getElementById('btn-reset');
 if (btnReset) {
   btnReset.addEventListener('click', function () {
@@ -308,7 +300,6 @@ if (btnReset) {
   });
 }
 
-/* ============ IMPRESSÃO ============ */
 const btnImprimir = document.getElementById('btn-imprimir');
 if (btnImprimir) {
   btnImprimir.addEventListener('click', function () {
@@ -316,7 +307,6 @@ if (btnImprimir) {
   });
 }
 
-/* ============ GERAR QR CODE DO LINKTREE ============ */
 function gerarQRCode() {
   const containerQr = document.getElementById('qrcode');
   if (containerQr && typeof QRCode !== 'undefined') {
@@ -332,7 +322,6 @@ function gerarQRCode() {
   }
 }
 
-/* ============ REFERÊNCIA E AÇÕES DO BOTÃO DE EDIÇÃO ============ */
 const btnEditarNome = document.getElementById('btn-editar-nome');
 
 function atualizarEstadoBotaoEdicao() {
@@ -344,8 +333,8 @@ function atualizarEstadoBotaoEdicao() {
     btnEditarNome.removeAttribute('disabled');
   } else {
     btnEditarNome.setAttribute('disabled', 'true');
-    if (outProduto) outProduto.removeAttribute('contenteditable');
-    if (btnEditarNome) btnEditarNome.textContent = 'Editar Nome';
+    document.querySelectorAll('.edit').forEach(el => el.removeAttribute('contenteditable'));
+    if (btnEditarNome) btnEditarNome.textContent = 'Editar Textos';
   }
 }
 
@@ -353,24 +342,20 @@ if (btnEditarNome) {
   btnEditarNome.addEventListener('click', function() {
     if (btnEditarNome.hasAttribute('disabled')) return;
     
+    const editaveis = document.querySelectorAll('.edit');
     const estaEditavel = outProduto.getAttribute('contenteditable') === 'true';
     
     if (!estaEditavel) {
-      outProduto.setAttribute('contenteditable', 'true');
+      editaveis.forEach(el => el.setAttribute('contenteditable', 'true'));
       outProduto.focus();
-      const range = document.createRange();
-      range.selectNodeContents(outProduto);
-      const sel = window.getSelection();
-      sel.removeAllRanges();
-      sel.addRange(range);
       
       btnEditarNome.textContent = 'Concluir Edição';
       btnEditarNome.style.background = '#137333';
       btnEditarNome.style.borderColor = '#137333';
       btnEditarNome.style.color = '#fff';
     } else {
-      outProduto.removeAttribute('contenteditable');
-      btnEditarNome.textContent = 'Editar Nome';
+      editaveis.forEach(el => el.removeAttribute('contenteditable'));
+      btnEditarNome.textContent = 'Editar Textos';
       btnEditarNome.style.background = '';
       btnEditarNome.style.borderColor = '';
       btnEditarNome.style.color = '';
@@ -379,13 +364,6 @@ if (btnEditarNome) {
   });
 }
 
-if (outProduto) {
-  outProduto.addEventListener('input', function() {
-    salvarDadosTela();
-  });
-}
-
-/* ============ INICIALIZAÇÃO ============ */
 document.addEventListener('DOMContentLoaded', function () {
   carregarDados();
   calcular();

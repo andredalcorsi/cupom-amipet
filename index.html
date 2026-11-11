@@ -32,8 +32,8 @@
         <div class="btn-csv" id="lbl-csv">
           <span id="txt-csv">Conectando à Nuvem...</span>
         </div>
-        <!-- BOTÃO DE EDITAR NOME DO PRODUTO -->
-        <button type="button" id="btn-editar-nome" class="btn-editar-nome" disabled title="Carregue um produto para habilitar a edição do nome">Editar Nome</button>
+        <!-- BOTÃO DE EDITAR TEXTOS -->
+        <button type="button" id="btn-editar-nome" class="btn-editar-nome" disabled title="Carregue um produto para habilitar a edição">Editar Textos</button>
       </div>
     </div>
 
@@ -53,10 +53,14 @@
           <img id="logo-img" src="LOGOS-ASSINATURAS-VARIADOS/Originals/Principal (2).png" alt="Logo Amipet" style="display: block;">
         </div>
 
-        <div class="headline">
-          <h1 class="edit" data-key="h1-titulo">OFERTAS DA LOJA</h1>
-          <div class="sub edit" data-key="sub-titulo">para o seu pet</div>
-          <p class="apoio edit" data-key="txt-apoio">Descontos progressivos em toda a loja.</p>
+        <div class="destaque-produto">
+          <h2 id="out-produto" class="edit" data-key="out-produto">Nome do produto</h2>
+          <p id="out-descricao" class="edit" data-key="out-descricao">Código do produto</p>
+          
+          <div class="linha-preco">
+            <span id="out-preco-oferta">R$ 0,00</span>
+            <span class="selo-off edit" data-key="txt-selo">VALOR ORIGINAL</span>
+          </div>
         </div>
 
         <div class="rodape">
@@ -73,56 +77,49 @@
       <!-- COLUNA DA DIREITA -->
       <div class="col-dir">
         <div class="card">
-          <!-- 1. BLOCO DO PRODUTO (TOPO) -->
-          <div class="destaque-produto">
-            <h2 id="out-produto" class="edit" data-key="out-produto">Nome do produto</h2>
-            <p id="out-descricao" class="edit" data-key="out-descricao">Código do produto</p>
-            
-            <div class="linha-preco">
-              <span id="out-preco-oferta">R$ 0,00</span>
-              <span class="selo-off edit" data-key="txt-selo">VALOR ORIGINAL</span>
-            </div>
-          </div>
-
-          <!-- 2. TÍTULO CONDIÇÕES DE DESCONTO (MOVIDO PARA LOGO ABAIXO DO PRODUTO) -->
+          <!-- TÍTULO DE CONDIÇÕES ESTILIZADO E CHAMATIVO -->
           <div class="secao-condicoes">
-            <h3 class="edit" data-key="card-titulo">Condições de desconto</h3>
-            <p class="card-sub edit" data-key="card-sub">Calculado sobre o preço informado</p>
+            <div class="condicoes-header-top">
+              <h3 class="edit" data-key="card-titulo">Condições Imperdíveis de Desconto</h3>
+            </div>
+            <p class="card-sub edit" data-key="card-sub">Calculado automaticamente sobre o preço informado</p>
           </div>
 
-          <!-- 3. FAIXA 10% -->
-          <div class="faixa">
-            <div class="pct">10%</div>
-            <div class="faixa-info">
-              <div class="cond edit" data-key="cond-10">Sem valor mínimo</div>
-              <div class="valores">
-                <span class="final" id="final-10">Valor final do produto: R$ —</span>
-              </div>
+          <!-- BOX DE 10% (INDEPENDENTE) -->
+          <div class="faixa-destaque-card faixa-destaque-card-10">
+            <div class="bloco-esq-card bloco-esq-card-10">
+              <span class="rotulo-desconto rotulo-desconto-10 edit" data-key="rot-10">10% DE DESCONTO</span>
+            </div>
+            <div class="bloco-dir-card bloco-dir-card-10">
+              <span class="final-valor final-valor-10" id="final-10">R$ —</span>
+              <span class="selo-off-card selo-off-card-10 edit" data-key="cond-10">SEM VALOR MÍNIMO</span>
             </div>
           </div>
 
-          <!-- 4. FAIXA 15% -->
-          <div class="faixa">
-            <div class="pct">15%</div>
-            <div class="faixa-info">
-              <div class="cond edit" data-key="cond-15">Em compras acima de R$300,00</div>
-              <div class="valores">
-                <span class="final" id="final-15">Valor final do produto: R$ —</span>
-              </div>
+          <!-- BOX DE 15% (INDEPENDENTE) -->
+          <div class="faixa-destaque-card faixa-destaque-card-15">
+            <div class="bloco-esq-card bloco-esq-card-15">
+              <span class="rotulo-desconto rotulo-desconto-15 edit" data-key="rot-15">15% DE DESCONTO</span>
+            </div>
+            <div class="bloco-dir-card bloco-dir-card-15">
+              <span class="final-valor final-valor-15" id="final-15">R$ —</span>
+              <span class="selo-off-card selo-off-card-15 edit" data-key="cond-15">EM COMPRAS ACIMA DE R$300,00</span>
             </div>
           </div>
 
-          <!-- 5. FAIXA 20% -->
-          <div class="faixa">
-            <div class="pct">20%</div>
-            <div class="faixa-info">
-              <div class="cond edit" data-key="cond-20">Em compras acima de R$1.000,00</div>
-              <div class="valores">
-                <span class="final" id="final-20">Valor final do produto: R$ —</span>
-              </div>
+          <!-- BOX DE 20% (INDEPENDENTE COM SELO DE MELHOR PREÇO) -->
+          <div class="faixa-destaque-card faixa-destaque-card-20">
+            <div class="selo-melhor-preco edit" data-key="selo-melhor-preco">🔥 MELHOR PREÇO</div>
+            <div class="bloco-esq-card bloco-esq-card-20">
+              <span class="rotulo-desconto rotulo-desconto-20 edit" data-key="rot-20">20% DE DESCONTO</span>
+            </div>
+            <div class="bloco-dir-card bloco-dir-card-20">
+              <span class="final-valor final-valor-20" id="final-20">R$ —</span>
+              <span class="selo-off-card selo-off-card-20 edit" data-key="cond-20">EM COMPRAS ACIMA DE R$1.000,00</span>
             </div>
           </div>
 
+          <!-- BARRA FINAL AZUL CENTRALIZADA -->
           <div class="barra-final edit" data-key="barra-final">Promoção válida para toda a loja!</div>
         </div>
       </div>

@@ -298,35 +298,6 @@ body {
   object-position: left top;
 }
 
-/* ---------- HEADLINE ---------- */
-.headline {
-  margin-top: 2mm;
-}
-
-.headline h1 {
-  margin: 0;
-  font-family: 'JandaManateeSolid', sans-serif;
-  font-size: 40px;
-  font-weight: normal;
-  line-height: 1.05;
-  letter-spacing: -.02em;
-  color: var(--verde);
-}
-
-.headline .sub {
-  margin: 2px 0 0;
-  font-size: 23px;
-  font-weight: 700;
-  line-height: 1.1;
-  color: var(--azul);
-}
-
-.apoio {
-  margin: 4px 0 0;
-  font-size: 13px;
-  color: var(--cinza);
-}
-
 /* ---------- RODAPÉ ---------- */
 .rodape {
   margin-top: 2mm;
@@ -368,11 +339,11 @@ body {
   print-color-adjust: exact;
 }
 
-/* ---------- BLOCO DE PRODUTO EM DESTAQUE NA COLUNA DIREITA ---------- */
+/* ---------- BLOCO DE PRODUTO EM DESTAQUE ---------- */
 .destaque-produto {
-  padding: 14px 16px;
-  border-radius: 10px;
-  background: rgba(66, 131, 145, .08);
+  padding: 10px 0;
+  background: transparent;
+  margin: 10px 0;
 }
 
 #out-produto {
@@ -416,20 +387,26 @@ body {
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-/* ---------- SEÇÃO DE TÍTULO DE CONDIÇÕES DE DESCONTO (ESPAÇADO DO PRODUTO E ACIMA DE TODAS AS FAIXAS) ---------- */
+/* ---------- TÍTULO DE CONDIÇÕES ESTILIZADO E CHAMATIVO ---------- */
 .secao-condicoes {
-  margin-top: 70px; 
-  margin-bottom: -30px;
-  padding: 8px 12px;
-  background: #ffffff;
-  border-left: 4px solid var(--verde);
-  border-radius: 0 6px 6px 0;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  margin-top: 0; 
+  margin-bottom: 0;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, rgba(66, 131, 145, 0.12) 0%, rgba(35, 111, 161, 0.08) 100%);
+  border-left: 5px solid var(--verde);
+  border-radius: 0 8px 8px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.condicoes-header-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .card h3 {
   margin: 0;
-  font-size: 13px;
+  font-size: 20px;
   font-weight: 800;
   letter-spacing: .08em;
   text-transform: uppercase;
@@ -437,74 +414,281 @@ body {
 }
 
 .card-sub {
+  margin: 2px 0 0 0px;
   font-size: 11px;
+  font-weight: 600;
   color: var(--cinza);
 }
 
-/* ---------- FAIXAS DE DESCONTO ---------- */
-.faixa {
-  flex: 1;
+/* ---------- ESTRUTURA BASE GERAL DOS BOXES ---------- */
+.faixa-destaque-card {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 6px 0;
-  border-bottom: 1px solid var(--linha);
-}
-
-.faixa:last-of-type {
-  border-bottom: none;
-}
-
-.pct {
-  font-size: 30px;
-  font-weight: 800;
-  line-height: 1;
-  color: var(--verde);
-  min-width: 65px;
-}
-
-.faixa-info {
+  justify-content: space-between;
   flex: 1;
+}
+
+.bloco-esq-card {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.bloco-dir-card {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
-.cond {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--carvao);
-}
-
-.valores {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.final {
-  font-size: 15px;
-  font-weight: 700;
-  color: #ff0000;
-}
-
+/* ---------- BARRA FINAL / PROMOÇÃO VÁLIDA ---------- */
 .barra-final {
   margin-top: 6px;
-  padding: 9px;
+  padding: 12px;
   border-radius: 8px;
   background: var(--azul);
   color: #fff;
-  font-size: 13.5px;
+  font-size: 14px;
   font-weight: 700;
   text-align: center;
   letter-spacing: .04em;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 
-.edit[contenteditable="true"] {
-  outline: 1px dashed rgba(35, 111, 161, .5);
-  outline-offset: 2px;
-  border-radius: 3px;
+/* ============================================================
+   ESTILOS COMPLETAMENTE INDEPENDENTES PARA CADA BOX DE DESCONTO
+   ============================================================ */
+
+/* --- 1. PROPRIEDADES DO BOX DE 10% --- */
+.faixa-destaque-card-10 {
+  background: rgba(66, 131, 145, .08);
+  border: 1px solid var(--linha);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin: 10px 0;
 }
+
+.bloco-esq-card-10 {
+  margin-left: 30px;
+  padding-right: 35px;
+}
+
+.bloco-esq-card-10::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 42px;
+  background-color: var(--amarelo);
+  border-radius: 1px;
+}
+
+.rotulo-desconto-10 {
+  background: var(--azul);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 12px 20px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  white-space: nowrap;
+}
+
+.bloco-dir-card-10 {
+  min-width: 240px;
+  gap: 4px;
+}
+
+.final-valor-10 {
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--azul);
+}
+
+.selo-off-card-10 {
+  background: var(--amarelo);
+  color: var(--carvao);
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  white-space: nowrap;
+}
+
+
+/* --- 2. PROPRIEDADES DO BOX DE 15% --- */
+.faixa-destaque-card-15 {
+  background: rgba(66, 131, 145, .08);
+  border: 1px solid var(--linha);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin: 10px 0;
+}
+
+.bloco-esq-card-15 {
+  margin-left: 30px;
+  padding-right: 35px;
+}
+
+.bloco-esq-card-15::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 42px;
+  background-color: var(--amarelo);
+  border-radius: 1px;
+}
+
+.rotulo-desconto-15 {
+  background: var(--azul);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 12px 20px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  white-space: nowrap;
+}
+
+.bloco-dir-card-15 {
+  min-width: 240px;
+  gap: 4px;
+}
+
+.final-valor-15 {
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--azul);
+}
+
+.selo-off-card-15 {
+  background: var(--amarelo);
+  color: var(--carvao);
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  white-space: nowrap;
+}
+
+
+/* ============================================================
+   ESTILOS DO ÚLTIMO BOX (20%) COM SELO "MELHOR PREÇO"
+   ============================================================ */
+
+.faixa-destaque-card-20 {
+  background: var(--amarelo);
+  border: 1px solid var(--linha);
+  border-radius: 10px;
+  padding: 24px 20px 16px 20px; /* Aumentado o padding superior para acomodar o selo */
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  position: relative; /* Necessário para posicionar o selo absoluto no topo */
+}
+
+/* Estilo do selo "Melhor Preço" flutuando no topo do box */
+.selo-melhor-preco {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--carvao);
+  color: var(--amarelo);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  padding: 4px 14px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  white-space: nowrap;
+}
+
+.bloco-esq-card-20 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  position: relative;
+  padding-right: 17px;
+}
+
+.bloco-esq-card-20::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 42px;
+  background-color: var(--carvao);
+  border-radius: 1px;
+}
+
+.rotulo-desconto-20 {
+  background: var(--carvao);
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 12px 20px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  white-space: nowrap;
+}
+
+.bloco-dir-card-20 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex: 1;
+  gap: 4px;
+}
+
+.final-valor-20 {
+  font-size: 50px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--carvao);
+}
+
+.selo-off-card-20 {
+  background: var(--carvao);
+  color: #ffffff;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  white-space: nowrap;
+  }
 
 /* ============================================================
    REGRAS DE RESPONSIVIDADE PARA DIFERENTES RESOLUÇÕES E TELAS
@@ -665,7 +849,8 @@ body {
   .selo-off,
   .barra-final,
   .destaque-produto,
-  .secao-condicoes {
+  .secao-condicoes,
+  .faixa-destaque-10 {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
