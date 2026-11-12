@@ -32,14 +32,13 @@
         <div class="btn-csv" id="lbl-csv">
           <span id="txt-csv">Conectando à Nuvem...</span>
         </div>
-        <!-- BOTÃO DE EDITAR TEXTOS -->
         <button type="button" id="btn-editar-nome" class="btn-editar-nome" disabled title="Carregue um produto para habilitar a edição">Editar Textos</button>
       </div>
     </div>
 
     <div class="acoes-barra">
       <button type="button" id="btn-imprimir">Imprimir / Salvar PDF</button>
-      <button type="button" id="btn-reset" style="background: #d9534f; color: #fff; border-color: #d9534f;">Apagar informações</button>
+      <button type="button" id="btn-reset" class="btn-reset">Apagar informações</button>
     </div>
   </div>
 
@@ -50,31 +49,31 @@
       <!-- COLUNA DA ESQUERDA -->
       <div class="col-esq">
         <div class="logo-area">
-          <img id="logo-img" src="LOGOS-ASSINATURAS-VARIADOS/Originals/Principal (2).png" alt="Logo Amipet" style="display: block;">
+          <img id="logo-img" src="LOGOS-ASSINATURAS-VARIADOS/Originals/Principal (2).png" alt="Logo Amipet">
         </div>
 
         <div class="destaque-produto">
           <h2 id="out-produto" class="edit" data-key="out-produto">Nome do produto</h2>
           <p id="out-descricao" class="edit" data-key="out-descricao">Código do produto</p>
           
-          <!-- DESTAQUE DE: / POR: COM 10% NA ESQUERDA -->
-          <div class="linha-preco" style="flex-direction: column; align-items: flex-start; gap: 2px;">
-            <div style="font-size: 18px; font-weight: 700; color: #d9534f; text-decoration: line-through;" id="out-preco-original" class="edit" data-key="txt-preco-orig">De: R$ 0,00</div>
-            <div style="display: flex; align-items: center; gap: 12px; width: 100%;">
-              <span id="out-preco-oferta">Por: R$ 0,00</span>
-              <span class="selo-off edit" data-key="txt-selo">10% DE DESCONTO</span>
+          <!-- DESTAQUE DE: / POR: COM 10% -->
+          <div class="bloco-de-para">
+            <span class="rotulo-de">De: <span id="out-preco-original">R$ 0,00</span></span>
+            <div class="linha-por-selo">
+              <span class="rotulo-para">Por: <span id="out-preco-10">R$ 0,00</span></span>
+              <span class="badge-10-amarelo edit" data-key="badge-10">10% DE DESCONTO</span>
             </div>
-            <div style="display: inline-block; font-size: 11px; font-weight: 800; color: #fff; background: var(--verde); padding: 5px 10px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" class="edit" data-key="txt-esq-min">✨ SEM VALOR MÍNIMO</div>
+            <span class="selo-off edit" data-key="txt-selo">✨ SEM VALOR MÍNIMO</span>
           </div>
         </div>
 
         <div class="rodape">
-          <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+          <div class="rodape-conteudo">
             <div class="contato-texto">
               <span class="rot">ENTRE EM CONTATO COM A GENTE!</span>
               <span class="edit" data-key="txt-contato">Escaneie o QR Code ao lado</span>
             </div>
-            <div id="qrcode" style="background: white; padding: 4px; border-radius: 4px;"></div>
+            <div id="qrcode"></div>
           </div>
         </div>
       </div>
@@ -82,12 +81,12 @@
       <!-- COLUNA DA DIREITA -->
       <div class="col-dir">
         <div class="card">
-          <!-- TÍTULO DE CONDIÇÕES ESTILIZADO E CHAMATIVO -->
+          <!-- TÍTULO DE CONDIÇÕES -->
           <div class="secao-condicoes">
             <div class="condicoes-header-top">
-              <h3 class="edit" data-key="card-titulo">Condições Imperdíveis de Desconto</h3>
+              <h3 class="edit" data-key="card-titulo">Condições de Desconto</h3>
             </div>
-            <p class="card-sub edit" data-key="card-sub">Calculado automaticamente sobre o preço informado</p>
+            <p class="card-sub edit" data-key="card-sub">Calculado sobre o preço informado</p>
           </div>
 
           <!-- BOX DE 15% -->

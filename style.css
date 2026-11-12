@@ -53,7 +53,7 @@ body {
   min-height: 100vh;
 }
 
-/* ---------- BARRA DE CONTROLES RESPONSIVA ---------- */
+/* ---------- BARRA DE CONTROLES ---------- */
 #barra {
   position: fixed;
   top: 0;
@@ -63,21 +63,17 @@ body {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 12px 24px;
+  gap: 12px 20px;
   padding: 12px 20px;
   background: #fff;
   box-shadow: 0 2px 12px rgba(30, 42, 46, .12);
-}
-
-#barra .campo:last-child {
-  margin-left: auto; 
 }
 
 #barra .campo {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  gap: 6px;
+  gap: 5px;
 }
 
 #barra label {
@@ -86,7 +82,6 @@ body {
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--azul);
-  margin-bottom: 2px;
   white-space: nowrap;
 }
 
@@ -100,8 +95,8 @@ body {
   border-radius: 6px;
   background: #fff;
   outline: none;
-  width: 220px;
-  max-width: 100%;
+  width: 210px;
+  height: 38px;
   transition: .2s;
 }
 
@@ -110,12 +105,10 @@ body {
   box-shadow: 0 0 0 3px rgba(35, 111, 161, .15);
 }
 
-/* ---------- BOTÃO DE UPLOAD CSV PROFISSIONAL ---------- */
 .grupo-csv {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
 }
 
 .btn-csv {
@@ -140,14 +133,12 @@ body {
   background: #E6F4EA !important;
   color: #137333 !important;
   border-color: #81C995 !important;
-  cursor: default;
 }
 
-/* ---------- CAMPO DE PESQUISA E DROPDOWN ---------- */
 .campo-busca {
   position: relative;
   flex: 1 1 240px;
-  max-width: 380px;
+  max-width: 360px;
 }
 
 .busca-wrapper {
@@ -166,6 +157,7 @@ body {
   background: #fff;
   outline: none;
   width: 100%;
+  height: 38px;
   transition: .2s;
 }
 
@@ -213,12 +205,10 @@ body {
   margin-top: 2px;
 }
 
-/* ---------- AÇÕES DA BARRA ---------- */
 .acoes-barra {
   margin-left: auto;
   display: flex;
   gap: 10px;
-  flex-wrap: wrap;
 }
 
 #barra button {
@@ -241,16 +231,55 @@ body {
 }
 
 #btn-imprimir {
+  background: var(--azul) !important;
+  border-color: var(--azul) !important;
+  color: #fff !important;
+}
+
+#btn-imprimir:hover {
+  background: #1D5C87 !important;
+}
+
+.btn-reset {
+  background: #d9534f !important;
+  color: #fff !important;
+  border-color: #d9534f !important;
+}
+
+.btn-reset:hover {
+  background: #c9302c !important;
+}
+
+.btn-editar-nome {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid #D5D5D0;
+  background: #F4F6F8;
+  color: var(--cinza);
+  transition: all 0.2s ease;
+  height: 38px;
+  white-space: nowrap;
+}
+
+.btn-editar-nome:not(:disabled) {
   background: var(--azul);
   border-color: var(--azul);
   color: #fff;
 }
 
-#btn-imprimir:hover {
-  background: #1D5C87;
+.btn-editar-nome:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  background: #E9ECEF;
+  border-color: #DEE2E6;
+  color: #6C757D;
 }
 
-/* ---------- PALCO / FOLHA (CENTRALIZADO) ---------- */
+/* ---------- PALCO / FOLHA (DESKTOP & A4 PADRÃO) ---------- */
 #palco {
   padding: 100px 20px 40px;
   display: flex;
@@ -265,13 +294,13 @@ body {
   padding: 12mm 10mm;
   background: var(--fundo);
   display: flex;
+  flex-direction: row;
   gap: 10mm;
   overflow: hidden;
   box-shadow: 0 10px 34px rgba(30, 42, 46, .16);
   flex-shrink: 0;
 }
 
-/* ---------- DISTRIBUIÇÃO DAS COLUNAS ---------- */
 .col-esq {
   flex: 0 0 41%;
   display: flex;
@@ -303,15 +332,20 @@ body {
   margin-top: 2mm;
   padding-top: 6px;
   border-top: 1px solid var(--linha);
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
   font-size: 10px;
   color: var(--cinza);
 }
 
+.rodape-conteudo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 8px;
+}
+
 .contato-texto {
-  white-space: nowrap;
+  line-height: 1.35;
 }
 
 .rodape .rot {
@@ -323,27 +357,20 @@ body {
   margin-right: 4px;
 }
 
-/* ---------- CARD DE CONDIÇÕES ---------- */
-.card {
-  width: 100%;
-  height: 100%;
-  padding: 14px 18px;
-  background: #F8F9FA;
-  border-radius: 12px;
-  border: 1px solid var(--linha);
-  box-shadow: 0 6px 20px rgba(30, 42, 46, .05);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  -webkit-print-color-adjust: exact;
-  print-color-adjust: exact;
+#qrcode {
+  background: white;
+  padding: 4px;
+  border-radius: 4px;
+  flex-shrink: 0;
 }
 
-/* ---------- BLOCO DE PRODUTO EM DESTAQUE ---------- */
+/* ---------- BLOCO DE PRODUTO E DE/PARA ---------- */
 .destaque-produto {
   padding: 10px 0;
-  background: transparent;
   margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 #out-produto {
@@ -355,30 +382,58 @@ body {
 }
 
 #out-descricao {
-  margin: 4px 0 0;
+  margin: 0;
   font-size: 13.5px;
   line-height: 1.4;
   color: rgba(30, 42, 46, .85);
 }
 
-.linha-preco {
-  margin-top: 8px;
+.bloco-de-para {
+  margin-top: 4px;
   display: flex;
-  align-items: center;
-  gap: 12px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
 }
 
-#out-preco-oferta {
-  font-size: 42px;
+.rotulo-de {
+  font-size: 15px;
+  font-weight: 700;
+  color: #c9302c;
+  text-decoration: line-through;
+}
+
+.linha-por-selo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.rotulo-para {
+  font-size: 36px;
   font-weight: 800;
   line-height: 1;
   color: var(--azul);
 }
 
-.selo-off {
+.badge-10-amarelo {
   background: var(--amarelo);
   color: var(--carvao);
-  font-size: 12px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 6px 10px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  white-space: nowrap;
+}
+
+.selo-off {
+  background: var(--verde);
+  color: #ffffff;
+  font-size: 11.5px;
   font-weight: 800;
   letter-spacing: 0.08em;
   padding: 6px 12px;
@@ -387,10 +442,21 @@ body {
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-/* ---------- TÍTULO DE CONDIÇÕES ESTILIZADO E CHAMATIVO ---------- */
+/* ---------- CARD DA DIREITA ---------- */
+.card {
+  width: 100%;
+  height: 100%;
+  padding: 14px 18px;
+  background: #F8F9FA;
+  border-radius: 12px;
+  border: 1px solid var(--linha);
+  box-shadow: 0 6px 20px rgba(30, 42, 46, .05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .secao-condicoes {
-  margin-top: 0; 
-  margin-bottom: 0;
   padding: 10px 14px;
   background: linear-gradient(135deg, rgba(66, 131, 145, 0.12) 0%, rgba(35, 111, 161, 0.08) 100%);
   border-left: 5px solid var(--verde);
@@ -414,13 +480,13 @@ body {
 }
 
 .card-sub {
-  margin: 2px 0 0 0px;
+  margin: 2px 0 0 0;
   font-size: 11px;
   font-weight: 600;
   color: var(--cinza);
 }
 
-/* ---------- ESTRUTURA BASE GERAL DOS BOXES ---------- */
+/* ---------- BOXES DE DESCONTO (INDEPENDENTES) ---------- */
 .faixa-destaque-card {
   display: flex;
   align-items: center;
@@ -431,6 +497,7 @@ body {
 .bloco-esq-card {
   display: flex;
   align-items: center;
+  justify-content: center;
   position: relative;
 }
 
@@ -442,78 +509,7 @@ body {
   text-align: center;
 }
 
-/* ---------- BARRA FINAL / PROMOÇÃO VÁLIDA ---------- */
-.barra-final {
-  margin-top: 6px;
-  padding: 12px;
-  border-radius: 8px;
-  background: var(--azul);
-  color: #fff;
-  font-size: 14px;
-  font-weight: 700;
-  text-align: center;
-  letter-spacing: .04em;
-  -webkit-print-color-adjust: exact;
-  print-color-adjust: exact;
-}
-
-/* ============================================================
-   ESTILOS COMPLETAMENTE INDEPENDENTES PARA CADA BOX DE DESCONTO
-   ============================================================ */
-
-/* --- 1. PROPRIEDADES DO BOX DE 10% --- */
-.faixa-destaque-card-10 {
-  background: rgba(66, 131, 145, .08);
-  border: 1px solid var(--linha);
-  border-radius: 10px;
-  padding: 16px 20px;
-  margin: 10px 0;
-}
-
-.bloco-esq-card-10 {
-  margin-left: 30px;
-  padding-right: 35px;
-}
-
-.bloco-esq-card-10::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 2px;
-  height: 42px;
-  background-color: var(--amarelo);
-  border-radius: 1px;
-}
-
-.rotulo-desconto-10 {
-  background: var(--azul);
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  padding: 12px 20px;
-  border-radius: 6px;
-  text-transform: uppercase;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-  white-space: nowrap;
-}
-
-.bloco-dir-card-10 {
-  min-width: 240px;
-  gap: 4px;
-}
-
-.final-valor-10 {
-  font-size: 34px;
-  font-weight: 800;
-  line-height: 1;
-  color: var(--azul);
-}
-
-
-/* --- 2. PROPRIEDADES DO BOX DE 15% --- */
+/* --- BOX DE 15% --- */
 .faixa-destaque-card-15 {
   background: rgba(66, 131, 145, .08);
   border: 1px solid var(--linha);
@@ -577,25 +573,16 @@ body {
   white-space: nowrap;
 }
 
-
-/* ============================================================
-   ESTILOS DO ÚLTIMO BOX (20%) COM SELO "MELHOR PREÇO"
-   ============================================================ */
-
+/* --- BOX DE 20% --- */
 .faixa-destaque-card-20 {
   background: var(--amarelo);
   border: 1px solid var(--linha);
   border-radius: 10px;
-  padding: 24px 20px 16px 20px; /* Aumentado o padding superior para acomodar o selo */
+  padding: 24px 20px 16px 20px;
   margin: 15px 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex: 1;
-  position: relative; /* Necessário para posicionar o selo absoluto no topo */
+  position: relative;
 }
 
-/* Estilo do selo "Melhor Preço" flutuando no topo do box */
 .selo-melhor-preco {
   position: absolute;
   top: -10px;
@@ -614,11 +601,7 @@ body {
 }
 
 .bloco-esq-card-20 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   flex: 1;
-  position: relative;
   padding-right: 17px;
 }
 
@@ -648,11 +631,6 @@ body {
 }
 
 .bloco-dir-card-20 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
   flex: 1;
   gap: 4px;
 }
@@ -675,99 +653,55 @@ body {
   text-transform: uppercase;
   box-shadow: 0 2px 4px rgba(0,0,0,0.08);
   white-space: nowrap;
-  }
+}
+
+.barra-final {
+  margin-top: 6px;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--azul);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: .04em;
+}
 
 /* ============================================================
-   REGRAS DE RESPONSIVIDADE PARA DIFERENTES RESOLUÇÕES E TELAS
+   RESPONSIVIDADE DE TELA (SOMENTE SCREEN — NÃO AFETA IMPRESSÃO)
    ============================================================ */
-
-@media screen and (max-width: 1400px) {
-  #palco {
-    padding: 90px 15px 30px;
-  }
-}
 
 @media screen and (max-width: 1200px) {
   #barra {
     position: relative;
-    padding: 12px 16px;
+    padding: 14px 16px;
+    gap: 12px;
   }
 
   #palco {
-    padding: 20px 10px 40px;
+    padding: 16px 12px 32px;
+    min-height: auto;
   }
-  
+
   #folha {
     width: 100%;
-    max-width: 297mm;
+    max-width: 900px;
     height: auto;
-    min-height: 210mm;
+    padding: 20px;
+    gap: 20px;
+    border-radius: 10px;
   }
 }
 
-@media screen and (max-width: 992px) {
-  #barra .campo {
-    flex: 1 1 auto;
+@media screen and (max-width: 920px) {
+  #barra .campo,
+  .campo-busca {
+    flex: 1 1 100%;
+    max-width: 100%;
   }
 
   #in-codigo {
     width: 100%;
-  }
-
-  .campo-busca {
-    max-width: 100%;
-    width: 100%;
-  }
-
-  .acoes-barra {
-    width: 100%;
-    justify-content: flex-end;
-  }
-
-  #folha {
-    flex-direction: column;
-    height: auto;
-    gap: 20px;
-  }
-
-  .col-esq {
-    flex: none;
-    width: 100%;
-  }
-
-  .col-dir {
-    width: 100%;
-  }
-  
-  .card {
-    height: auto;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  #barra {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-  }
-
-  .acoes-barra {
-    justify-content: space-between;
-  }
-
-  .acoes-barra button {
-    flex: 1;
-  }
-
-  #palco {
-    justify-content: flex-start;
-    padding: 15px;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  #barra {
-    padding: 10px;
   }
 
   .grupo-csv {
@@ -775,16 +709,121 @@ body {
   }
 
   .btn-csv {
-    width: 100%;
-    justify-content: center;
+    flex: 1;
   }
 
   .acoes-barra {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .acoes-barra button {
+    flex: 1;
+  }
+
+  /* Empilha as colunas no celular sem cortar nada */
+  #folha {
     flex-direction: column;
+    padding: 18px 16px;
+  }
+
+  .col-esq,
+  .col-dir {
+    flex: none;
+    width: 100%;
+  }
+
+  #logo-img {
+    max-height: 75px;
+    max-width: 210px;
+  }
+
+  .contato-texto {
+    white-space: normal;
+  }
+
+  .card {
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .card h3 {
+    font-size: 17px;
+  }
+
+  /* Empilha internamente os boxes de 15% e 20% no mobile */
+  .faixa-destaque-card-15,
+  .faixa-destaque-card-20 {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 18px 14px;
+    gap: 12px;
+    margin: 4px 0;
+  }
+
+  .faixa-destaque-card-20 {
+    padding-top: 24px;
+    margin-top: 10px;
+  }
+
+  .bloco-esq-card-15,
+  .bloco-esq-card-20 {
+    margin-left: 0;
+    padding-right: 0;
+    width: 100%;
+  }
+
+  /* Esconde o divisor vertical | no layout empilhado mobile */
+  .bloco-esq-card-15::after,
+  .bloco-esq-card-20::after {
+    display: none;
+  }
+
+  .bloco-dir-card-15,
+  .bloco-dir-card-20 {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .rotulo-desconto-20 {
+    font-size: 16px;
+    padding: 10px 16px;
+  }
+
+  .final-valor-20 {
+    font-size: 40px;
+  }
+
+  .selo-off-card-15,
+  .selo-off-card-20 {
+    white-space: normal;
+    line-height: 1.3;
   }
 }
 
-/* ---------- REGRAS DE IMPRESSÃO (A4 PAISAGEM CENTRALIZADO) ---------- */
+@media screen and (max-width: 480px) {
+  .acoes-barra {
+    flex-direction: column;
+  }
+
+  .rotulo-para {
+    font-size: 30px;
+  }
+
+  .final-valor-15 {
+    font-size: 30px;
+  }
+
+  .final-valor-20 {
+    font-size: 36px;
+  }
+}
+
+/* ============================================================
+   IMPRESSÃO FORÇADA EM A4 PAISAGEM (CELULAR E DESKTOP IGUAIS)
+   ============================================================ */
 @page {
   size: A4 landscape;
   margin: 0;
@@ -792,9 +831,12 @@ body {
 
 @media print {
   html, body {
-    width: 297mm;
-    height: 210mm;
+    width: 297mm !important;
+    height: 210mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
     background: #fff !important;
+    overflow: hidden !important;
   }
 
   #barra {
@@ -807,73 +849,125 @@ body {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 297mm;
-    height: 210mm;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 297mm !important;
+    height: 210mm !important;
     background: #fff !important;
-    overflow: hidden;
   }
 
   #folha {
-    width: 297mm;
-    height: 210mm;
+    width: 297mm !important;
+    height: 210mm !important;
+    max-width: none !important;
     margin: 0 !important;
+    padding: 12mm 10mm !important;
     box-shadow: none !important;
     border: none !important;
+    border-radius: 0 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 10mm !important;
     page-break-after: avoid;
     break-after: avoid;
-    flex-direction: row;
-    padding: 12mm 10mm !important;
+  }
+
+  .col-esq {
+    flex: 0 0 41% !important;
+    width: 41% !important;
+  }
+
+  .col-dir {
+    flex: 1 !important;
+    width: auto !important;
+  }
+
+  #logo-img {
+    max-height: 28mm !important;
+    max-width: 75mm !important;
+  }
+
+  .contato-texto {
+    white-space: nowrap !important;
+  }
+
+  .card {
+    padding: 14px 18px !important;
+    height: 100% !important;
+  }
+
+  .card h3 {
+    font-size: 20px !important;
+  }
+
+  .faixa-destaque-card-15,
+  .faixa-destaque-card-20 {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    text-align: left !important;
+  }
+
+  .faixa-destaque-card-15 {
+    padding: 16px 20px !important;
+    margin: 10px 0 !important;
+  }
+
+  .faixa-destaque-card-20 {
+    padding: 24px 20px 16px 20px !important;
+    margin: 15px 0 !important;
+  }
+
+  .bloco-esq-card-15 {
+    margin-left: 30px !important;
+    padding-right: 35px !important;
+    width: auto !important;
+  }
+
+  .bloco-esq-card-20 {
+    flex: 1 !important;
+    padding-right: 17px !important;
+    width: auto !important;
+  }
+
+  .bloco-esq-card-15::after,
+  .bloco-esq-card-20::after {
+    display: block !important;
+  }
+
+  .bloco-dir-card-15 {
+    min-width: 240px !important;
+    width: auto !important;
+  }
+
+  .bloco-dir-card-20 {
+    flex: 1 !important;
+    width: auto !important;
+  }
+
+  .rotulo-desconto-20 {
+    font-size: 20px !important;
+    padding: 12px 20px !important;
+  }
+
+  .final-valor-15 {
+    font-size: 34px !important;
+  }
+
+  .final-valor-20 {
+    font-size: 50px !important;
+  }
+
+  .rotulo-para {
+    font-size: 36px !important;
   }
 
   .edit[contenteditable="true"] {
     outline: none !important;
   }
 
-  .card,
-  .selo-off,
-  .barra-final,
-  .destaque-produto,
-  .secao-condicoes,
-  .faixa-destaque-10 {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
-}
-
-/* ============ BOTÃO DE EDITAR NOME DO PRODUTO ============ */
-.btn-editar-nome {
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 700;
-  padding: 8px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  border: 1px solid #D5D5D0;
-  background: #F4F6F8;
-  color: var(--cinza);
-  transition: all 0.2s ease;
-  height: 38px;
-  white-space: nowrap;
-}
-
-.btn-editar-nome:not(:disabled) {
-  background: var(--azul);
-  border-color: var(--azul);
-  color: #fff;
-}
-
-.btn-editar-nome:not(:disabled):hover {
-  background: #1D5C87;
-  border-color: #1D5C87;
-}
-
-.btn-editar-nome:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-  background: #E9ECEF;
-  border-color: #DEE2E6;
-  color: #6C757D;
 }
