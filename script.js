@@ -3,7 +3,6 @@ const URL_GOOGLE_SHEETS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRevL
 
 /* ============ CONFIGURAÇÃO DAS FAIXAS ============ */
 const FAIXAS = [
-  { pct: 10, min: 0, cond: 'Em qualquer compra (sem mínimo)' },
   { pct: 15, min: 300, cond: 'Em compras acima de R$ 300' },
   { pct: 20, min: 1000, cond: 'Em compras acima de R$ 1.000' }
 ];
@@ -16,8 +15,8 @@ const inBusca = document.getElementById('in-busca');
 const listaSugestoes = document.getElementById('lista-sugestoes');
 const outProduto = document.getElementById('out-produto');
 const outDescricao = document.getElementById('out-descricao');
-const outPrecoOferta = document.getElementById('out-preco-oferta');
 const outPrecoOriginal = document.getElementById('out-preco-original');
+const outPreco10 = document.getElementById('out-preco-10'); // Referência corrigida aqui!
 
 const lblCsv = document.getElementById('lbl-csv');
 const txtCsv = document.getElementById('txt-csv');
@@ -80,7 +79,7 @@ function processarConteudoCsv(conteudo) {
     let linha = linhas[i].trim();
     if (!linha) continue;
     
-    let colunas = linha.match(/(".*?"|[^";,]+)(?=\s*[,;]|\s*$)/g) || linha.split(separador);
+    let colunas = linha.match(/(".*?"|[^";,]+)(?=\s*[,;]|$)/g) || linha.split(separador);
     colunas = colunas.map(c => c.trim().replace(/^"|"$/g, ''));
 
     if (colunas.length > Math.max(idxCodigo, idxDescricao, idxVenda)) {
@@ -230,9 +229,6 @@ function salvarDadosTela() {
 }
 
 function carregarDados() {
-  // Limpa o cache antigo que estava travando o selo como "VALOR ORIGINAL"
-  localStorage.removeItem('amipet_text_txt-selo');
-
   if (localStorage.getItem('amipet_out_produto')) {
     outProduto.textContent = localStorage.getItem('amipet_out_produto');
   }
@@ -256,14 +252,14 @@ function calcular() {
   const valido = !isNaN(preco) && preco > 0;
 
   if (valido) {
-    if (outPrecoOriginal) outPrecoOriginal.textContent = `De: ${brl.format(preco)}`;
+    if (outPrecoOriginal) outPrecoOriginal.textContent = brl.format(preco);
     
-    // Cálculo dos 10% para o "Por:" da esquerda
-    const precoComDesconto = preco - (preco * 0.10);
-    if (outPrecoOferta) outPrecoOferta.textContent = `Por: ${brl.format(precoComDesconto)}`;
+    // Cálculo automático dos 10% de desconto para o "Por:"
+    const preco10 = preco - (preco * 10 / 100);
+    if (outPreco10) outPreco10.textContent = brl.format(preco10);
   } else {
-    if (outPrecoOriginal) outPrecoOriginal.textContent = 'De: R$ 0,00';
-    if (outPrecoOferta) outPrecoOferta.textContent = 'Por: R$ 0,00';
+    if (outPrecoOriginal) outPrecoOriginal.textContent = 'R$ 0,00';
+    if (outPreco10) outPreco10.textContent = 'R$ 0,00';
   }
 
   FAIXAS.forEach(function (f) {
