@@ -57,9 +57,14 @@
           <h2 id="out-produto" class="edit" data-key="out-produto">Nome do produto</h2>
           <p id="out-descricao" class="edit" data-key="out-descricao">Código do produto</p>
           
-          <div class="linha-preco">
-            <span id="out-preco-oferta">R$ 0,00</span>
-            <span class="selo-off edit" data-key="txt-selo">VALOR ORIGINAL</span>
+          <!-- DESTAQUE DE: / POR: COM 10% NA ESQUERDA -->
+          <div class="linha-preco" style="flex-direction: column; align-items: flex-start; gap: 2px;">
+            <div style="font-size: 18px; font-weight: 700; color: #d9534f; text-decoration: line-through;" id="out-preco-original" class="edit" data-key="txt-preco-orig">De: R$ 0,00</div>
+            <div style="display: flex; align-items: center; gap: 12px; width: 100%;">
+              <span id="out-preco-oferta">Por: R$ 0,00</span>
+              <span class="selo-off edit" data-key="txt-selo">10% DE DESCONTO</span>
+            </div>
+            <div style="display: inline-block; font-size: 11px; font-weight: 800; color: #fff; background: var(--verde); padding: 5px 10px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" class="edit" data-key="txt-esq-min">✨ SEM VALOR MÍNIMO</div>
           </div>
         </div>
 
@@ -85,18 +90,7 @@
             <p class="card-sub edit" data-key="card-sub">Calculado automaticamente sobre o preço informado</p>
           </div>
 
-          <!-- BOX DE 10% (INDEPENDENTE) -->
-          <div class="faixa-destaque-card faixa-destaque-card-10">
-            <div class="bloco-esq-card bloco-esq-card-10">
-              <span class="rotulo-desconto rotulo-desconto-10 edit" data-key="rot-10">10% DE DESCONTO</span>
-            </div>
-            <div class="bloco-dir-card bloco-dir-card-10">
-              <span class="final-valor final-valor-10" id="final-10">R$ —</span>
-              <span class="selo-off-card selo-off-card-10 edit" data-key="cond-10">SEM VALOR MÍNIMO</span>
-            </div>
-          </div>
-
-          <!-- BOX DE 15% (INDEPENDENTE) -->
+          <!-- BOX DE 15% -->
           <div class="faixa-destaque-card faixa-destaque-card-15">
             <div class="bloco-esq-card bloco-esq-card-15">
               <span class="rotulo-desconto rotulo-desconto-15 edit" data-key="rot-15">15% DE DESCONTO</span>
@@ -107,7 +101,7 @@
             </div>
           </div>
 
-          <!-- BOX DE 20% (INDEPENDENTE COM SELO DE MELHOR PREÇO) -->
+          <!-- BOX DE 20% -->
           <div class="faixa-destaque-card faixa-destaque-card-20">
             <div class="selo-melhor-preco edit" data-key="selo-melhor-preco">🔥 MELHOR PREÇO</div>
             <div class="bloco-esq-card bloco-esq-card-20">

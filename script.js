@@ -17,6 +17,7 @@ const listaSugestoes = document.getElementById('lista-sugestoes');
 const outProduto = document.getElementById('out-produto');
 const outDescricao = document.getElementById('out-descricao');
 const outPrecoOferta = document.getElementById('out-preco-oferta');
+const outPrecoOriginal = document.getElementById('out-preco-original');
 
 const lblCsv = document.getElementById('lbl-csv');
 const txtCsv = document.getElementById('txt-csv');
@@ -229,6 +230,9 @@ function salvarDadosTela() {
 }
 
 function carregarDados() {
+  // Limpa o cache antigo que estava travando o selo como "VALOR ORIGINAL"
+  localStorage.removeItem('amipet_text_txt-selo');
+
   if (localStorage.getItem('amipet_out_produto')) {
     outProduto.textContent = localStorage.getItem('amipet_out_produto');
   }
@@ -252,9 +256,14 @@ function calcular() {
   const valido = !isNaN(preco) && preco > 0;
 
   if (valido) {
-    if (outPrecoOferta) outPrecoOferta.textContent = brl.format(preco);
+    if (outPrecoOriginal) outPrecoOriginal.textContent = `De: ${brl.format(preco)}`;
+    
+    // Cálculo dos 10% para o "Por:" da esquerda
+    const precoComDesconto = preco - (preco * 0.10);
+    if (outPrecoOferta) outPrecoOferta.textContent = `Por: ${brl.format(precoComDesconto)}`;
   } else {
-    if (outPrecoOferta) outPrecoOferta.textContent = 'R$ 0,00';
+    if (outPrecoOriginal) outPrecoOriginal.textContent = 'De: R$ 0,00';
+    if (outPrecoOferta) outPrecoOferta.textContent = 'Por: R$ 0,00';
   }
 
   FAIXAS.forEach(function (f) {

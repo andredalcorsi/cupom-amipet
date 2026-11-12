@@ -512,19 +512,6 @@ body {
   color: var(--azul);
 }
 
-.selo-off-card-10 {
-  background: var(--amarelo);
-  color: var(--carvao);
-  font-size: 10.5px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  padding: 4px 10px;
-  border-radius: 6px;
-  text-transform: uppercase;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-  white-space: nowrap;
-}
-
 
 /* --- 2. PROPRIEDADES DO BOX DE 15% --- */
 .faixa-destaque-card-15 {
